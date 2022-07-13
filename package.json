@@ -1,0 +1,24 @@
+{
+  "name": "module_1",
+  "version": "1.0.0",
+  "description": "https://www.figma.com/file/55Bdqy4cZViEVuMq1Ce8wY/Chat-UI?node-id=0%3A1",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnnAErmak/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnnAErmak/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/AnnAErmak/middle.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  }
+}
