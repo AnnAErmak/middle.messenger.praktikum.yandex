@@ -4,21 +4,26 @@
   "description": "https://www.figma.com/file/55Bdqy4cZViEVuMq1Ce8wY/Chat-UI?node-id=0%3A1",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.html",
-    "build": "parcel build index.html"
+    "dev": "parcel static/index.html",
+    "build": "parcel build static/index.html"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AnnAErmak/middle.messenger.praktikum.yandex.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "AnnA Ermak",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AnnAErmak/middle.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/AnnAErmak/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.6.2",
     "parcel": "^2.6.2"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.7",
+    "parcel-transformer-hbs": "^1.0.4"
   }
 }
