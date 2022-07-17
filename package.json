@@ -2,14 +2,25 @@
   "name": "module_1",
   "version": "1.0.0",
   "description": "https://www.figma.com/file/55Bdqy4cZViEVuMq1Ce8wY/Chat-UI?node-id=0%3A1",
-  "main": "index.js",
+
   "scripts": {
-    "dev": "parcel static/*.html",
-    "build": "parcel build static/index.html",
-    "start": "node server.js"
+    "dev": "parcel static/*.html static/img/*.png",
+    "build": "parcel build static/*.html static/img/*.png --no-source-maps --no-cache --public-url ./",
+    "start": "parcel build static/*.html static/img/*.png --no-source-maps --no-cache --public-url ./ && node server.js"
   },
   "engines": {
     "node": ">=12.x"
+  },
+  "targets": {
+    "default": {
+      "distDir": "./dist",
+      "sourceMap": true,
+      "includeNodeModules": [
+        "handlebars",
+        "uuid"
+      ],
+      "context": "browser"
+    }
   },
   "repository": {
     "type": "git",
@@ -29,6 +40,7 @@
   "dependencies": {
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
-    "parcel-transformer-hbs": "^1.0.4"
+    "parcel-transformer-hbs": "^1.0.4",
+    "sass": "^1.53.0"
   }
 }

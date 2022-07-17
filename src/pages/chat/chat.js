@@ -1,7 +1,7 @@
 import chatTemplate from './chat.hbs'
-
+import './chat.scss'
 
 const html = chatTemplate();
-const root = document.querySelector('#main')
+const root = document.querySelector('#root')
 
-root.innerHTML = html
+root.insertAdjacentHTML('beforeend', html)

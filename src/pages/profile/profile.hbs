@@ -1,20 +1,23 @@
-<div class="wrapper-profile">
-    <div>
-        <img src="#" alt="фото профиля">
+<main class="container">
+    <div class="wrapper-form">
+        <form class="form-profile" method="get" action="#">
+            <fieldset class="form-profile__foto">
+                <img src="./img/profile_foto.png" alt="фотография профиля">
+                <h2 class="form-profile__caption">Иван</h2>
+            </fieldset>
+            <fieldset class="form-profile__inputs">
+                {{> inputMail }}
+                {{> inputLogin }}
+                {{> inputFirstName }}
+                {{> inputSecondName }}
+                {{> inputDisplayName }}
+                {{> inputPhone }}
+            </fieldset>
+            <fieldset class="form-profile__buttons">
+                {{> buttonFixData }}
+                {{> buttonFixPassword }}
+                <a class="form-profile__link" href="./login.html">Выйти</a>
+            </fieldset>
+        </form>
     </div>
-    <div>
-        <p>Почта</p>
-        <p>Фамилия</p>
-        <p>Телефон</p>
-        <p>Имя в чате</p>
-        <p>телефон</p>
-        <br>
-        <br>
-        <br>
-        <br>
-
-        <p>Изменить</p>
-        <p>Выйти</p>
-    </div>
-
-</div>
+</main>
