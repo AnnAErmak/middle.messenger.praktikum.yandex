@@ -1,4 +1,4 @@
-import './input.scss'
-import imputTemplate from './input.hbs'
+import './input.scss';
+import inputTemplate from './input.hbs';
 
-export default imputTemplate
+export default inputTemplate;

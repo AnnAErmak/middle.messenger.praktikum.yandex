@@ -1,7 +1,9 @@
-import chatTemplate from './chat.hbs'
-import './chat.scss'
+import './chat.scss';
+import headerTemplate from '../../components/header/header';
+import chatTemplate from './chat.hbs';
+import {renderTemplate} from '../../utils/utils';
 
-const html = chatTemplate();
-const root = document.querySelector('#root')
 
-root.insertAdjacentHTML('beforeend', html)
+const htmlChat = chatTemplate();
+const htmlHeader = headerTemplate();
+renderTemplate([htmlHeader, htmlChat])

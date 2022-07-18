@@ -1,4 +1,4 @@
-import './button.scss'
-import buttonTemplate from './button.hbs'
+import './button.scss';
+import buttonTemplate from './button.hbs';
 
-export default buttonTemplate
+export default buttonTemplate;

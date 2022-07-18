@@ -7,8 +7,12 @@
   box-sizing: border-box;
 }
 
-a:focus,a:active{outline: none;}
-nav,footer,header,aside{display: block;}
+a:focus,a:active{
+  outline: none;
+}
+nav,footer,header,aside{
+  display: block;
+}
 html,body{
   height: 100%;
   width: 100%;
@@ -16,12 +20,21 @@ html,body{
   font-family: Inter, sans-serif;
 
 }
-//input,button{font-family: Inter, sans-serif;}
-button{cursor: pointer;}
-a, a:visited{text-decoration: none;}
-a:hover{text-decoration: none;}
-ul li{list-style: none;}
-img{vertical-align: top;}
+button{
+  cursor: pointer;
+}
+a, a:visited{
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: none;
+}
+ul li{
+  list-style: none;
+}
+img{
+  vertical-align: top;
+}
 
 #root{
   height: 100%;
@@ -29,8 +42,6 @@ img{vertical-align: top;}
 .container {
   margin: 0 auto;
   max-width: 1024px;
-
-
 }
 .wrapper-form{
   padding: 50px 0 0 0;
