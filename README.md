@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fdeba6b3-1d9c-41c4-8687-6e6608a7c163/deploy-status)](https://app.netlify.com/sites/eloquent-liger-e7a33b/deploys)
 #Приложение для обмена сообщениями.
 
 
