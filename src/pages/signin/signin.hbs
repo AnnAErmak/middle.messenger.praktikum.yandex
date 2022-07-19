@@ -1,0 +1,20 @@
+<main class="container">
+    <div class="wrapper-form">
+        <form class="form-signin" method="get" action="#">
+            <h2 class="form-signin__caption">Регистрация</h2>
+            <fieldset class="form-signin__inputs">
+                {{> inputMail }}
+                {{> inputLogin }}
+                {{> inputFirstName }}
+                {{> inputSecondName }}
+                {{> inputPhone }}
+                {{> inputPassword }}
+                {{> inputPasswordAgain }}
+            </fieldset>
+            <fieldset class="form-signin__buttons">
+                {{> buttonSubmit }}
+                <a class="form-signin__link" href="./login.html">Войти</a>
+            </fieldset>
+        </form>
+    </div>
+</main>
