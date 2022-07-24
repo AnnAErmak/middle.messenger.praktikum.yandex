@@ -8,6 +8,7 @@ import inputTemplate from '../../components/input/input';
 import Handlebars from 'handlebars';
 
 const button = buttonTemplate({classes: '', text: 'Войти'});
+console.log(button)
 const inputLogin = inputTemplate({name:'login', placeholder: 'логин', inputType:'text', text:'Логин'});
 const inputPassword = inputTemplate({name:'password', placeholder: 'пароль', inputType:'password',text:'Пароль'});
 Handlebars.registerPartial('buttonSubmit', button);
