@@ -48,9 +48,10 @@ class Block {
 
     _render() {
         const block = this.render();
-
+        this._removeEvents();
         this._element.innerHTML = block
-
+        this._addEvents();
+        console.log(this)
     }
 
     render() {}
@@ -108,6 +109,21 @@ setProps = (nextProps)=> {
 
     getContent() {
         return this.element;
+    }
+
+    _addEvents() {
+        const {events = {}} = this.props;
+
+        Object.keys(events).forEach(eventName => {
+            this._element.firstChild.addEventListener(eventName, events[eventName]);
+        });
+    }
+    _removeEvents(){
+        const { events = {} } = this.props;
+
+        Object.keys(events).forEach((eventName) => {
+            this.element.removeEventListener(eventName, events[eventName].bind(this));
+        });
     }
     show() {
         this.getContent().style.display = "block";

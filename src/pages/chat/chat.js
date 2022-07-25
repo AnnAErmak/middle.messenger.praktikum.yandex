@@ -18,7 +18,8 @@ class Button extends Block {
     }
     render() {
         // В проект должен быть ваш собственный шаблонизатор
-        return buttonTemplate(this.props)
+        const {text} = this.props
+        return buttonTemplate({text})
     }
 }
 class Mess extends Block {
@@ -28,7 +29,8 @@ class Mess extends Block {
     }
     render() {
         // В проект должен быть ваш собственный шаблонизатор
-        return messageTemplate(this.props)
+        const {text} = this.props
+        return messageTemplate({text})
     }
 }
 function render(query, block) {
@@ -40,9 +42,32 @@ function render(query, block) {
 
 const button = new Button({
     text: 'Click me',
+    events:{
+        click: e => {
+            console.log('Button click')
+        },
+        focus: e => {
+            console.log('Focus')
+        },
+        blur: e => {
+            console.log('blur')
+        }
+    }
+
 });
 const mess = new Mess({
     text: 'Click me',
+    events:{
+        click: e => {
+            console.log('Button click')
+        },
+        focus: e => {
+            console.log('Focus')
+        },
+        blur: e => {
+            console.log('blur')
+        }
+    }
 });
 
 // app — это class дива в корне DOM
@@ -50,13 +75,13 @@ render(".chat-messages", button);
 render(".chat-messages", mess);
 //button.hide()
 // Через секунду контент изменится сам, достаточно обновить пропсы
-setTimeout(() => {
-    button.setProps({
-        text: 'Click me, please',
-    });
-}, 1000);
-setTimeout(() => {
-    mess.setProps({
-        text: 'Click me, please',
-    });
-}, 3000);
+// setTimeout(() => {
+//     button.setProps({
+//         text: 'Click me, please',
+//     });
+// }, 1000);
+// setTimeout(() => {
+//     mess.setProps({
+//         text: 'Click me, please',
+//     });
+// }, 3000);
