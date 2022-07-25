@@ -42,6 +42,7 @@ function render(query, block) {
 
 const button = new Button({
     text: 'Click me',
+    settings: {withInternalID: true},
     events:{
         click: e => {
             console.log('Button click')

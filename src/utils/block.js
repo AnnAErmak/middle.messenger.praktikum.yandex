@@ -1,4 +1,5 @@
 import EventBus from './event-bus'
+import {v4 as makeUUID} from 'uuid';
 
 class Block {
     static EVENTS = {
@@ -10,6 +11,7 @@ class Block {
 
     _element = null;
     _meta = null;
+    _id = null;
 
     constructor(tagName = "div", props = {}) {
         const eventBus = new EventBus();
@@ -17,8 +19,12 @@ class Block {
             tagName,
             props
         };
+        const {settings} = props
+        if(settings){
+            this._id = makeUUID();
+        }
 
-        this.props = this._makePropsProxy(props);
+        this.props = this._makePropsProxy({ ...props, __id: this._id });
 
         this.eventBus = () => eventBus;
 
@@ -37,9 +43,9 @@ class Block {
         //this._element = document.createDocumentFragment();
     }
     _createDocumentElement(tagName) {
-        // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-        //return document.createDocumentFragment();
-        return document.createElement(tagName);
+        const element = document.createElement(tagName);
+        element.setAttribute('data-id', this._id);
+        return element;
     }
     init() {
         this._createResources();

@@ -2,7 +2,6 @@
   "name": "module_1",
   "version": "1.0.0",
   "description": "https://www.figma.com/file/55Bdqy4cZViEVuMq1Ce8wY/Chat-UI?node-id=0%3A1",
-
   "scripts": {
     "dev": "parcel static/*.html static/img/*.png",
     "build": "parcel build static/*.html static/img/*.png --no-source-maps --no-cache --public-url ./",
@@ -41,6 +40,7 @@
     "express": "4.18.1",
     "handlebars": "4.7.7",
     "parcel-transformer-hbs": "1.0.4",
-    "sass": "1.53.0"
+    "sass": "1.53.0",
+    "uuid": "^8.3.2"
   }
 }
