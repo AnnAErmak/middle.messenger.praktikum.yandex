@@ -13,23 +13,56 @@ class Block {
     _meta = null;
     _id = null;
 
-    constructor(tagName = "div", props = {}) {
+    constructor(tagName = "div", propsAndChildren  = {}) {
+
         const eventBus = new EventBus();
         this._meta = {
             tagName,
-            props
+            propsAndChildren
         };
+        const { children, props } = this._getChildren(propsAndChildren);
+        this.children = children;
+
         const {settings} = props
-        if(settings){
+        if(settings.withInternalID){
             this._id = makeUUID();
         }
 
-        this.props = this._makePropsProxy({ ...props, __id: this._id });
+        this.props = this._makePropsProxy({ ...props});
 
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
+        console.log(this)
+    }
+    _getChildren(propsAndChildren) {
+        const children = {};
+        const props = {};
+
+        Object.entries(propsAndChildren).forEach(([key, value]) => {
+            if (value instanceof Block) {
+                children[key] = value;
+            } else {
+                props[key] = value;
+            }
+        });
+
+        return { children, props };
+    }
+    compile(template, props) {
+        const propsAndStubs = { ...props };
+
+        Object.entries(this.children).forEach(([key, child]) => {
+            propsAndStubs[key] = `<div data-id="${child._id}"></div>`
+        });
+        const fragment = this._createDocumentElement('template');
+        fragment.innerHTML = template(propsAndStubs)
+        Object.values(this.children).forEach(child => {
+            const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+            stub.replaceWith(child.getContent());
+        });
+         return fragment.content;
     }
     _registerEvents(eventBus) {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -37,27 +70,31 @@ class Block {
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
-    _createResources() {
-        const { tagName } = this._meta;
-        this._element = this._createDocumentElement(tagName)
-        //this._element = document.createDocumentFragment();
-    }
+
     _createDocumentElement(tagName) {
         const element = document.createElement(tagName);
-        element.setAttribute('data-id', this._id);
         return element;
     }
     init() {
-        this._createResources();
+        //this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
     _render() {
         const block = this.render();
-        this._removeEvents();
-        this._element.innerHTML = block
+
+        const newElement = block.firstElementChild;
+
+        if (this._element) {
+            this._removeEvents();
+            this._element.replaceWith(newElement);
+        //    console.log("EST",newElement)
+        }
+        //console.log("NOUP", newElement)
+        this._element = newElement;
+
         this._addEvents();
-        console.log(this)
+
     }
 
     render() {}
@@ -101,7 +138,7 @@ setProps = (nextProps)=> {
             return typeof value === 'function' ? value.bind(target) : value;
         },
             set: (target, prop, value) => {
-                console.log(value)
+
             target[prop] = value;
             self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
             return true;
@@ -112,16 +149,15 @@ setProps = (nextProps)=> {
     });
     }
 
-
     getContent() {
         return this.element;
     }
 
     _addEvents() {
         const {events = {}} = this.props;
-
+//console.log(events)
         Object.keys(events).forEach(eventName => {
-            this._element.firstChild.addEventListener(eventName, events[eventName]);
+            this._element.addEventListener(eventName, events[eventName]);
         });
     }
     _removeEvents(){
@@ -143,3 +179,9 @@ setProps = (nextProps)=> {
 }
 
 export default Block
+
+// _createResources() {
+//     const { tagName } = this._meta;
+//     this._element = this._createDocumentElement(tagName)
+//     //this._element = document.createDocumentFragment();
+// }
