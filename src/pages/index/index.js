@@ -1,5 +1,5 @@
-import headerTemplate from '../../components/header/header';
+import {renderTemplate} from "../../utils/utils";
+import Header from "../../components/header/header";
 
-const root = document.querySelector('#root');
-const htmlHeader = headerTemplate();
-root.insertAdjacentHTML('afterbegin', htmlHeader);
+const header = new Header({settings: {withInternalID: false}})
+renderTemplate('#root', header);

@@ -8,57 +8,32 @@ class Block {
         FLOW_CDU: "flow:component-did-update",
         FLOW_RENDER: "flow:render"
     };
-
     _element = null;
-    _meta = null;
     _id = null;
-
-    constructor(tagName = "div", propsAndChildren  = {}) {
-
+   constructor( props  = {}) {
         const eventBus = new EventBus();
-        this._meta = {
-            tagName,
-            propsAndChildren
-        };
-        const { children, props } = this._getChildren(propsAndChildren);
-        this.children = children;
+        // const { children, props } = this._getChildren(propsAndChildren);
+        this._children = props.children || {};
 
         const {settings} = props
         if(settings.withInternalID){
             this._id = makeUUID();
         }
-
         this.props = this._makePropsProxy({ ...props});
-
         this.eventBus = () => eventBus;
-
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
-        console.log(this)
     }
-    _getChildren(propsAndChildren) {
-        const children = {};
-        const props = {};
 
-        Object.entries(propsAndChildren).forEach(([key, value]) => {
-            if (value instanceof Block) {
-                children[key] = value;
-            } else {
-                props[key] = value;
-            }
-        });
-
-        return { children, props };
-    }
     compile(template, props) {
         const propsAndStubs = { ...props };
-
-        Object.entries(this.children).forEach(([key, child]) => {
+        console.log(this._children)
+        Object.entries(this._children).forEach(([key, child]) => {
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`
         });
         const fragment = this._createDocumentElement('template');
         fragment.innerHTML = template(propsAndStubs)
-        Object.values(this.children).forEach(child => {
+        Object.values(this._children).forEach(child => {
             const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
             stub.replaceWith(child.getContent());
         });
@@ -72,8 +47,7 @@ class Block {
     }
 
     _createDocumentElement(tagName) {
-        const element = document.createElement(tagName);
-        return element;
+        return document.createElement(tagName);
     }
     init() {
         //this._createResources();
@@ -100,25 +74,28 @@ class Block {
     render() {}
     _componentDidMount(){
         this.componentDidMount();
+        Object.values(this._children).forEach(child => {
+            child.dispatchComponentDidMount();
+        });
         this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
-
+    dispatchComponentDidMount() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    }
     componentDidMount(){}
+
     get element() {
         return this._element
     }
     _componentDidUpdate(oldProps, newProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
-    return;
-}
-this._render();
+        return;
+        }
+    this._render();
 }
 
-componentDidUpdate(
-    oldProps,
-    newProps
-) {
+componentDidUpdate(oldProps, newProps) {
     return oldProps !== newProps;
 }
 
@@ -155,7 +132,7 @@ setProps = (nextProps)=> {
 
     _addEvents() {
         const {events = {}} = this.props;
-//console.log(events)
+
         Object.keys(events).forEach(eventName => {
             this._element.addEventListener(eventName, events[eventName]);
         });
@@ -184,4 +161,18 @@ export default Block
 //     const { tagName } = this._meta;
 //     this._element = this._createDocumentElement(tagName)
 //     //this._element = document.createDocumentFragment();
+// }
+// _getChildren(propsAndChildren) {
+//     const children = {};
+//     const props = {};
+//     //console.log(propsAndChildren)
+//     Object.entries(propsAndChildren).forEach(([key, value]) => {
+//         if (value instanceof Block) {
+//             children[key] = value;
+//         } else {
+//             props[key] = value;
+//         }
+//     });
+//
+//     return { children, props };
 // }

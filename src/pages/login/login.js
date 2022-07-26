@@ -1,69 +1,133 @@
-import loginTemplate from './login.hbs';
-import headerTemplate from '../../components/header/header';
-import './login.css';
-import '../../globalStyles/globalStyles.scss';
-import buttonTemplate from '../../components/button/button'
+import loginTemplate from './login.hbs'
 import Block from "../../utils/block";
-import formTemplate from "../../components/form/form.js";
-const root = document.querySelector('#root');
+import Form from "../../components/form/form";
+import Header from "../../components/header/header";
+import Button from "../../components/button/button";
+import Input from "../../components/input/input";
 
-const hed = headerTemplate()
-const log = loginTemplate()
-root.insertAdjacentHTML('beforeend', hed)
-root.insertAdjacentHTML('beforeend', log)
-class Button extends Block {
+
+export default class LoginPage extends Block{
     constructor(props) {
-        // Создаём враппер дом-элемент button
-        super('div', props);
+        super({...props, children: {header : new Header({settings: {withInternalID: false}}),
+                button: new Button({
+                    text: props.buttonText,
+                    classes: props.classes,
+                    settings: {withInternalID: true},
+                    events: {
+                        click: e => {
+                            e.preventDefault()
+                            console.log('Click BUTTON form')
+                        }
+                    }
+                }),
+            }})
+
+
+            // , {
+            // header : new Header({settings: {withInternalID: false}}),
+            // button: new Button({
+            //     text: props.buttonText,
+            //     classes: props.classes,
+            //     settings: {withInternalID: true},
+            //     events: {
+            //         click: e => {
+            //             e.preventDefault()
+            //             console.log('Click BUTTON form')
+            //         }
+            //     }
+            // }),
+            // inputLogin: new Input({
+            //     text: props.inputLoginText,
+            //     inputType: props.inputLoginType,
+            //     name: props.inputLoginName,
+            //     placeholder: props.inputLoginPlaceholder,
+            //     settings: {withInternalID: true},
+            //     events: {
+            //         click: e => {
+            //             e.preventDefault()
+            //             console.log('Click Input Login form')
+            //         }
+            //    }
+            // }),
+            // inputPassword:new Input({
+            //     text: props.inputPasswordText,
+            //     inputType: props.inputPasswordType,
+            //     name: props.inputPasswordName,
+            //     placeholder: props.inputPasswordPlaceholder,
+            //     settings: {withInternalID: true},
+            //     events: {
+            //         click: e => {
+            //             e.preventDefault()
+            //             console.log('Click Input Pass form')
+            //         }
+            //     }
+            // }),
+        //})
     }
     render() {
-        // В проект должен быть ваш собственный шаблонизатор
-        //const {text} = this.props
-        return this.compile(buttonTemplate, this.props);
+        return this.compile(loginTemplate)
+            //{
+            // header: this.header,
+            // button: this.button,
+            // inputsLogin: this.inputLogin,
+            // inputsPassword: this.inputPassword,
+        //})
     }
 }
-const button = new Button({
-    text: 'Click me',
-    settings: {withInternalID: true},
-    events: {
-        click: e => {
-            console.log('Click BUTTON form')
-        }
-    }
-});
-class Form extends Block{
-    constructor(props) {
-        super('div', props);
-    }
-    render(){
-        return this.compile(formTemplate, this.props)
-    }
-}
-const form = new Form(
-    {
-        settings: {withInternalID: false},
-        button: button,
-        events: {
-            submit: e => {
-                console.log('form click')
-            },
-        }
-    });
-function render(query, block) {
-    const root = document.querySelector(query);
-    root.appendChild(block.getContent())
-    //root.insertAdjacentHTML('beforeend', block.getContent())
-    return root;
-}
-render(".wrapper-form", form);
 
-setTimeout(() => {
-    button.setProps({
-        text: 'Click me, please',
-    });
-}, 1000);
+// const root = document.querySelector('#root');
+//
+// const hed = headerTemplate()
+// const log = loginTemplate()
+// root.insertAdjacentHTML('beforeend', hed)
+// root.insertAdjacentHTML('beforeend', log)
+// class Button extends Block {
+//     constructor(props) {
+//         // Создаём враппер дом-элемент button
+//         super('div', props);
+//     }
+//     render() {
+//         // В проект должен быть ваш собственный шаблонизатор
+//         //const {text} = this.props
+//         return this.compile(buttonTemplate, this.props);
+//     }
+// }
+// const button = new Button({
+//     text: 'Click me',
+//     settings: {withInternalID: false},
+//     events: {
+//         click: e => {
+//             console.log('Click BUTTON form')
+//         }
+//     }
+// });
 
-
+// const form = new Form(
+//     {
+//         settings: {withInternalID: false},
+//         button: button,
+//         events: {
+//             submit: e => {
+//                 e.preventDefault()
+//                 console.log('form click')
+//             },
+//         }
+//     });
+// function render(query, block) {
+//     const root = document.querySelector(query);
+//     root.appendChild(block.getContent())
+//     //root.insertAdjacentHTML('beforeend', block.getContent())
+//     return root;
+// }
+// render(".wrapper-form", form);
+//
+// setTimeout(() => {
+//     button.setProps({
+//         text: 'Click me, please',
+//     });
+// }, 1000);
+//
+//
 
 
 
