@@ -10,24 +10,26 @@ class Block {
     };
     _element = null;
     _id = null;
-   constructor( props  = {}) {
+   constructor(props) {
         const eventBus = new EventBus();
-        // const { children, props } = this._getChildren(propsAndChildren);
         this._children = props.children || {};
-
         const {settings} = props
         if(settings.withInternalID){
             this._id = makeUUID();
         }
-        this.props = this._makePropsProxy({ ...props});
+        this.props = this._makePropsProxy(props);
         this.eventBus = () => eventBus;
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
     }
-
+    _registerEvents(eventBus) {
+        eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    }
     compile(template, props) {
         const propsAndStubs = { ...props };
-        console.log(this._children)
         Object.entries(this._children).forEach(([key, child]) => {
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`
         });
@@ -37,52 +39,28 @@ class Block {
             const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
             stub.replaceWith(child.getContent());
         });
-         return fragment.content;
-    }
-    _registerEvents(eventBus) {
-        eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+        return fragment.content;
     }
 
     _createDocumentElement(tagName) {
         return document.createElement(tagName);
     }
     init() {
-        //this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
     _render() {
         const block = this.render();
-
         const newElement = block.firstElementChild;
-
         if (this._element) {
             this._removeEvents();
             this._element.replaceWith(newElement);
-        //    console.log("EST",newElement)
         }
-        //console.log("NOUP", newElement)
         this._element = newElement;
-
         this._addEvents();
-
     }
 
     render() {}
-    _componentDidMount(){
-        this.componentDidMount();
-        Object.values(this._children).forEach(child => {
-            child.dispatchComponentDidMount();
-        });
-        this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
-    }
-    dispatchComponentDidMount() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    }
-    componentDidMount(){}
 
     get element() {
         return this._element
@@ -105,6 +83,7 @@ setProps = (nextProps)=> {
     }
 
     Object.assign(this.props, nextProps);
+
 };
     _makePropsProxy(target) {
         const self = this;
@@ -144,15 +123,24 @@ setProps = (nextProps)=> {
             this.element.removeEventListener(eventName, events[eventName].bind(this));
         });
     }
+    _componentDidMount(){
+        this.componentDidMount();
+        Object.values(this._children).forEach(child => {
+            child.dispatchComponentDidMount();
+        });
+        this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
+    dispatchComponentDidMount() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    }
+    componentDidMount(){}
+
     show() {
         this.getContent().style.display = "block";
     }
-
     hide() {
-
         this.getContent().style.display = 'none'
         }
-
 }
 
 export default Block

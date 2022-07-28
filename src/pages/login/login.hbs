@@ -1,11 +1,15 @@
 <main class="container">
     {{{header}}}
     <div class="wrapper-form">
-        <form class="form-login" method="get" action="#">
-            <h2 class="form-login__caption">Вход</h2>
+        <form class="form-login" name="login" method="get" action="#">
+            <h2 class="form-login__caption">{{title}}</h2>
             <fieldset class="form-login__inputs">
+                <label class="label-input">Логин
                 {{{inputLogin}}}
+                </label>
+                <label class="label-input">Пароль
                 {{{inputPassword}}}
+                </label>
             </fieldset>
             <fieldset class="form-login__buttons">
                 {{{button}}}
