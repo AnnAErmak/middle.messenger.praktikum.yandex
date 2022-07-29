@@ -2,10 +2,9 @@ import loginTemplate from './login.hbs'
 import Block from "../../utils/block";
 import Header from "../../components/header/header";
 import Button from "../../components/button/button";
-import Input from "../../components/input/input";
-import {isValid} from "../../utils/validator";
-
 import '../../globalStyles/globalStyles.scss'
+
+import Input from "../../components/input/input";
 import {login, password} from "../../components/input/inputTypes";
 
 
@@ -14,11 +13,11 @@ export default class LoginPage extends Block{
         super({
             ...props,
             children: {
-                inputLogin: login,
-                inputPassword: password,
+                inputLogin: new Input(login),
+                inputPassword: new Input(password),
                 header: new Header({settings: {withInternalID: false}}),
                 button: new Button({
-                    text: props.buttonText,
+                    textButton: props.buttonText,
                     classes: 'class',
                     settings: {withInternalID: true},
                     type: 'submit'
@@ -26,6 +25,7 @@ export default class LoginPage extends Block{
             }
         })
     }
+
     render() {
         return this.compile(loginTemplate, {title: this.props.titleForm})
     }

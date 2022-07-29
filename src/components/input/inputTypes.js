@@ -1,8 +1,7 @@
-import Input from "./input";
 import {isValid} from "../../utils/validator";
 
-export const login = new Input({
-        textLabel: 'Логин',
+
+export const login ={
         inputType: 'text',
         name: 'login',
         placeholder: 'логин',
@@ -15,19 +14,19 @@ export const login = new Input({
                 isValid(e.target)
             },
         }
-    })
-export const  password = new Input({
-        textLabel: 'Пароль',
+
+    }
+export const password = {
         inputType: 'password',
         name: 'password',
         placeholder: 'Пароль',
-        settings: {withInternalID: true},
-        events: {
-            focus: e => {
-                isValid(e.target)
-            },
-            blur: e => {
-                isValid(e.target)
-            },
-        }
-    })
+    settings: {withInternalID: true},
+    events: {
+        focus: e => {
+            isValid(e.target)
+        },
+        blur: e => {
+            isValid(e.target)
+        },
+    }
+}

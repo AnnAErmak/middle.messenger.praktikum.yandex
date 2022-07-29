@@ -7,7 +7,6 @@ class Input extends Block {
     constructor(props) {
         super(props);
     }
-
     render() {
         return this.compile(inputTemplate, this.props);
     }

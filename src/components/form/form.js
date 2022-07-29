@@ -1,25 +1,39 @@
 import Block from "../../utils/block";
 import formTemplate from './form.hbs'
 import Button from "../button/button";
+import Input from "../input/input";
+import {login, password} from "../input/inputTypes";
 export default class Form extends Block{
     constructor(props) {
-        super(props);
-    }
-    render(){
-        this.children.button =  new Button({
-            text: 'Click me',
-            classes: 'but',
-            settings: {withInternalID: false},
-            events: {
-                click: e => {
-                    e.preventDefault()
-                    console.log('Click BUTTON form')
-                }
+        const createInputs = (inputsNames) => {
+            const obj ={}
+            inputsNames.forEach(name => {
+                obj[name.name] = new Input(name)
+            })
+            return obj
+        }
+        const inputs = createInputs(props.inputs)
+        const arrInputs = []
+        Object.keys(inputs).forEach(input => {
+            arrInputs.push(input.this.getContent())
+        })
+        super({...props, children: {
+                button: new Button({
+                    textButton: props.textButton,
+                    classes: '',
+                    settings: {withInternalID: true},
+                    type: 'submit'
+                }),
+                    ...inputs
             }
         });
-        return this.compile(formTemplate, {
-            button: this.button,
-            inputs: [`<button>text</button>`, `<button>text</button>`, `<button>text</button>`]
-        });
+    }
+    render(){
+
+        return this.compile(formTemplate, {...this.props, inputs: this.arrInputs });
     }
 }
+//
+// {{#each inputs}}
+// {{{this}}}
+// {{/each}}
