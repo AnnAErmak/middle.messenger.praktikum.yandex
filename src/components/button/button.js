@@ -1,16 +1,9 @@
 import './button.scss';
 import buttonTemplate from './button.hbs';
-import Block from "../../utils/block";
+import Block from "../../utils/Block";
 
-class Button extends Block {
-    constructor(props) {
-        super(props);
-    }
-
+export default class Button extends Block {
     render() {
-        return this.compile(buttonTemplate, this.props);
+        return this.compile(buttonTemplate, this._props);
     }
 }
-
-
-export default Button;

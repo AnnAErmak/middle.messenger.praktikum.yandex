@@ -1,23 +1,11 @@
-<main class="container">
-    <div class="wrapper-form">
-        <form class="form-profile" method="get" action="#">
-            <fieldset class="form-profile__photo">
-                <img src="./img/profile_photo.png" alt="фотография профиля">
-                <h2 class="form-profile__caption">Иван</h2>
-            </fieldset>
-            <fieldset class="form-profile__inputs">
-                {{> inputMail }}
-                {{> inputLogin }}
-                {{> inputFirstName }}
-                {{> inputSecondName }}
-                {{> inputDisplayName }}
-                {{> inputPhone }}
-            </fieldset>
-            <fieldset class="form-profile__buttons">
-                {{> buttonFixData }}
-                {{> buttonFixPassword }}
-                <a class="form-profile__link" href="./login.html">Выйти</a>
-            </fieldset>
-        </form>
+{{{header}}}
+    <div class="wrapper__form-profile">
+        <div class="wrapper__ava">
+            <label for="ava" class="label-ava">
+                <input type="file" id="ava" name="ava" class="profile-ava">
+                <img src="./img/profile_photo.png" alt="фото ля профиля">
+            </label>
+            <p class="profile-name">Иван</p>
+        </div>
+        {{{formProfile}}}
     </div>
-</main>

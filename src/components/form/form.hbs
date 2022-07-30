@@ -1,12 +1,11 @@
-<form class="form-login" method="get" action="#">
-    <h2 class="form-login__caption">{{titleForm}}</h2>
-    <fieldset class="form-login__inputs">
-         {{#each inputs}}
-            {{{this}}}
-         {{/each}}
+    <h2 class="form-{{formName}}__caption">{{titleForm}}</h2>
+    <fieldset class="form-{{formName}}__inputs">
+    {{#each inputs}}
+        {{{this}}}
+    {{/each}}
     </fieldset>
-    <fieldset class="form-login__buttons">
-        {{{button}}}
-        <a class="form-login__link" href="./signin.html">Вход</a>
+    <fieldset class="form-{{formName}}__buttons">
+            {{{button}}}
+            {{{buttonFixPass}}}
+        <a class="form-{{formName}}__link" href={{hrefForm}}>{{linkName}}</a>
     </fieldset>
-</form>
