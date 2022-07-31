@@ -14,10 +14,3 @@ export default class Form extends Block{
         })
     }
 }
-
-//
-// {{#each inputs}}
-// <label class="label-input">{{this.labelName}}
-//     <input class ="label-input__input" type="{{this.inputType}}" name="{{this.name}}" placeholder="{{this.placeholder}}">
-// </label>
-// {{/each}}

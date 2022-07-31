@@ -1,4 +1,3 @@
-import {isValid} from "../../utils/validator";
 import Input from "./input";
 
 export const inputsLogin = {
@@ -109,11 +108,3 @@ export const inputs = {
         labelName: 'Пароль (еще раз)',
     })
 }
-
-
-// {
-//     inputType: inputLogin._props.inputType,
-//         labelName: inputLogin._props.labelName,
-//     placeholder: inputLogin._props.placeholder,
-//     name: inputLogin._props.name
-// },
