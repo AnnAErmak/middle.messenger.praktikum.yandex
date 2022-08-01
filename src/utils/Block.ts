@@ -1,6 +1,14 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
 
+export type TProps = {
+  [key: string]: unknown;
+};
+export type TMeta = {
+  tag: string;
+  props: object;
+};
+
 abstract class Block {
   static EVENTS = {
     INIT: 'init',
@@ -9,17 +17,17 @@ abstract class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  _props;
+  protected _props: any;
 
-  _children;
+  protected _children: any;
 
   private readonly _id: string | null;
 
-  protected _element!: HTMLElement;
+  protected _element: HTMLElement;
 
-  _meta;
+  protected _meta: TMeta;
 
-  _eventBus;
+  protected _eventBus: EventBus;
 
   private _setUpdate = false;
 
@@ -35,31 +43,31 @@ abstract class Block {
     this._eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _registerEvents() {
+   _registerEvents() {
     this._eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  compile(template, props) {
+  compile(template: (props:TProps) => string, props: {}) {
     if (typeof (props) === 'undefined') {
       props = this._props;
     }
-    const propsAndStubs = { ...props };
+    const propsAndStubs: { [key:string]: string } = { ...props };
     Object.entries(this._children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
     const fragment = this._createDocumentElement('template');
     fragment.innerHTML = template(propsAndStubs);
     Object.values(this._children).forEach((child) => {
-      const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+      const stub: HTMLElement = fragment.content.querySelector(`[data-id="${child._id}"]`);
       if (stub) stub.replaceWith(child.getContent());
     });
     return fragment.content;
   }
 
-  _createDocumentElement(tagName) {
+   _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
@@ -69,7 +77,7 @@ abstract class Block {
   }
 
   _render() {
-    const block = this.render();
+    const block: HTMLElement = this.render();
     this._removeEvents();
     this._element.innerHTML = '';
     this._element.appendChild(block);
@@ -77,20 +85,20 @@ abstract class Block {
     this.addAttribute();
   }
 
-  render() {}
+   render() {}
 
-  _componentDidUpdate(oldProps, newProps) {
-    const response = this.componentDidUpdate(oldProps, newProps);
+   _componentDidUpdate(oldProps: any, newProps:any) {
+    const response = Block.componentDidUpdate(oldProps, newProps);
     if (response) {
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
-  componentDidUpdate(oldProps, newProps) {
+   componentDidUpdate(oldProps, newProps) {
     return true;
   }
 
-  setProps = (nextProps) => {
+  setProps = (nextProps: any) => {
     if (!nextProps) {
       return;
     }
@@ -110,13 +118,13 @@ abstract class Block {
     }
   };
 
-  _makePropsProxy(props) {
+  _makePropsProxy(props: any) {
     return new Proxy(props, {
       get: (target, prop) => {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set: (target, prop, value) => {
+      set: (target: any, prop, value) => {
         if (target[prop] !== value) {
           target[prop] = value;
           this._setUpdate = true;
@@ -133,7 +141,7 @@ abstract class Block {
     return this._element;
   }
 
-  _addEvents() {
+   _addEvents() {
     const { events = {} } = this._props;
 
     Object.keys(events).forEach((eventName) => {
@@ -141,7 +149,7 @@ abstract class Block {
     });
   }
 
-  _removeEvents() {
+   _removeEvents() {
     const { events = {} } = this._props;
 
     Object.keys(events).forEach((eventName) => {
@@ -156,9 +164,9 @@ abstract class Block {
     });
   }
 
-  getChildren(propsAndChildren) {
-    const children = {};
-    const props = {};
+   getChildren(propsAndChildren: TProps) {
+    const children: { [key: string]: any } = {};
+    const props: { [key: string]: any } = {};
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
@@ -171,7 +179,7 @@ abstract class Block {
 
   _componentDidMount() {
     this.componentDidMount();
-    Object.values(this._children).forEach((child) => {
+    Object.values(this._children).forEach((child: any) => {
       child.dispatchComponentDidMount();
     });
   }
@@ -183,7 +191,9 @@ abstract class Block {
     }
   }
 
-  componentDidMount() {}
+   componentDidMount() {
+
+  }
 
   show() {
     this.getContent().style.display = 'block';

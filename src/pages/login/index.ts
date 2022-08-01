@@ -35,7 +35,7 @@ const formLogin = new Form('form', {
     action: '#',
   },
   events: {
-    submit: (e) => {
+    submit: (e: Event) => {
       e.preventDefault();
       isValid(e.target);
     },

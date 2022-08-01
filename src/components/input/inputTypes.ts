@@ -1,16 +1,6 @@
 import Input from './input';
+import {IInput} from "./types";
 
-interface IInput {
-  [key: string]: Input
-  // inputLogin: Input,
-  // inputPassword?: Input,
-  // inputPasswordAgain?: Input,
-  // inputEmail?: Input,
-  // inputFirstName?: Input,
-  // inputSecondName?: Input,
-  // inputChatName?: Input,
-  // inputPhone?: Input
-}
 export const inputsLogin: IInput = {
   inputLogin: new Input('label', {
     inputType: 'text',

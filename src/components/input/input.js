@@ -4,6 +4,6 @@ import Block from "../../utils/Block";
 
 export default class Input extends Block {
     render() {
-        return this.compile(inputTemplate, this.props);
+        return this.compile(inputTemplate, this._props);
     }
 }

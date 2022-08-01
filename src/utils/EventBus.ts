@@ -5,14 +5,14 @@ class EventBus {
     this.listeners = {};
   }
 
-  on(event: string, callback: Function) {
+  on(event: string, callback: Function): void {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
     this.listeners[event].push(callback);
   }
 
-  off(event: string, callback: Function) {
+  off(event: string, callback: Function):void {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
@@ -21,7 +21,7 @@ class EventBus {
     );
   }
 
-  emit(event: string, ...args) {
+  emit(event: string, ...args: unknown[]): void {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
