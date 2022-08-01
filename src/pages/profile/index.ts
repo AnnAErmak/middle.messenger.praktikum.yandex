@@ -5,7 +5,7 @@ import Button from "../../components/button/button";
 import Form from "../../components/form/form";
 import {getInputs, renderTemplate} from "../../utils/utils";
 import {inputsProfile} from "../../components/input/inputTypes";
-import {isValid} from "../../utils/validator";
+import isValid from "../../utils/validator";
 import Profile from "./profile";
 
 const header = new Header('header', {
@@ -44,7 +44,7 @@ const formProfile = new Form('form',{
         action: '#',
     },
     events: {
-        submit: e => {
+        submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
             e.preventDefault()
             isValid(e.target)
         },

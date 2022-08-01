@@ -2,7 +2,7 @@ import './login.css';
 import '../../globalStyles/globalStyles.scss';
 import LoginPage from './login';
 import { getInputs, renderTemplate } from '../../utils/utils';
-import { isValid } from '../../utils/validator';
+import isValid from '../../utils/validator';
 import Header from '../../components/header/header';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
@@ -35,9 +35,9 @@ const formLogin = new Form('form', {
     action: '#',
   },
   events: {
-    submit: (e: Event) => {
+    submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
       e.preventDefault();
-      isValid(e.target);
+      isValid(e.target as HTMLFormElement);
     },
   },
   titleForm: 'Вход',

@@ -5,18 +5,18 @@ const regexpEmail = /^[a-z\d-]+@[a-z\d-]+\.[a-z]+$/i;
 const regexpPassword = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
 const regexpMessage = /.+/;
 
-const decoratorInvalid = (element: HTMLInputElement) => {
+const decoratorInvalid = (element: HTMLFormElement) => {
   if (!element.classList.contains('error-validator')) {
     element.classList.add('error-validator');
   }
 };
-const decoratorValid = (element: HTMLInputElement) => {
+const decoratorValid = (element: HTMLFormElement) => {
   if (element.classList.contains('error-validator')) {
     element.classList.remove('error-validator');
   }
 };
 
-const isValidField = (field: HTMLInputElement) => {
+const isValidField = (field: HTMLFormElement) => {
   switch (field.name) {
     case 'login': {
       const resLogin = regexpLogin.test(field.value);
@@ -64,7 +64,7 @@ type DataForm = {
 const isValidForm = (form: HTMLFormElement): void => {
   const dataForm: DataForm = {};
   let errors = 0;
-  Array.from(form.elements).forEach((field:HTMLInputElement) => {
+  Array.from(form.elements).forEach((field:HTMLFormElement) => {
     if (field.tagName === 'INPUT') {
       isValidField(field)
         ? dataForm[field.name] = field.value
@@ -75,8 +75,8 @@ const isValidForm = (form: HTMLFormElement): void => {
     ? console.log('необходимо корректно заполнить все поля формы!!!')
     : console.log(dataForm);
 };
-const isValid = (element: HTMLFormElement & HTMLInputElement): void => {
+function isValid(element: HTMLFormElement): void {
   (element.tagName === 'FORM') ? isValidForm(element) : isValidField(element);
-};
+}
 
-export default { isValid };
+export default isValid;

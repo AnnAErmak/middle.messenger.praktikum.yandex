@@ -4,7 +4,7 @@ import { getInputs, renderTemplate } from '../../utils/utils';
 import Header from '../../components/header/header';
 import Form from '../../components/form/form';
 import Button from '../../components/button/button';
-import { isValid } from '../../utils/validator';
+import isValid from '../../utils/validator';
 import { inputs } from '../../components/input/inputTypes';
 
 const header = new Header('header', {
@@ -34,7 +34,7 @@ const formRegistration = new Form('form', {
     action: '#',
   },
   events: {
-    submit: (e) => {
+    submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
       e.preventDefault();
       isValid(e.target);
     },

@@ -3,7 +3,7 @@ import '../../globalStyles/globalStyles.scss'
 import ChatPage from "./chat";
 import {renderTemplate} from "../../utils/utils";
 import Header from "../../components/header/header";
-import {isValid} from "../../utils/validator";
+import isValid from "../../utils/validator";
 
 const header = new Header('header', {
     attr: {
@@ -16,7 +16,7 @@ const chatPage = new ChatPage('div', {
         class: "container"
     },
     events: {
-        submit: e => {
+        submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
             e.preventDefault()
             isValid(e.target)
         }
