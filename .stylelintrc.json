@@ -10,7 +10,10 @@
     "no-missing-end-of-source-newline": false,
     "no-empty-source": null,
     "declaration-colon-space-after": "always-single-line",
-    "selector-class-pattern": "^.+$"
+    "selector-class-pattern": "^.+$",
+    "rule-empty-line-before": true,
+    "alpha-value-notation": true,
+    "color-function-notation": true
   },
   "ignoreFiles": [
     ".cache/*",
