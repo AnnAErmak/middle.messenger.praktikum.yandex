@@ -8,6 +8,6 @@
     "sourceMap": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true,
+    "noImplicitAny": true
   }
 }
