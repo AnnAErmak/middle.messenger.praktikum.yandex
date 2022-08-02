@@ -1,27 +1,27 @@
 .header {
-    background-color: #fbfbfb;
-    height: 80px;
+  background-color: #fbfbfb;
+  height: 80px;
 
-    &__caption {
-        color: var(--blue-text);
-        text-align: center;
-        margin-bottom: 10px;
-    }
+  &__caption {
+    color: var(--blue-text);
+    text-align: center;
+    margin-bottom: 10px;
+  }
 
-    &__nav {
-        padding: 10px;
-    }
+  &__nav {
+    padding: 10px;
+  }
 }
 
 .menu__list {
-    display: flex;
+  display: flex;
 }
 
 .menu__item {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .menu__link {
-    color: var(--blue-text);
-    font-size: 20px;
+  color: var(--blue-text);
+  font-size: 20px;
 }
