@@ -6,7 +6,7 @@ export type TProps = {
 };
 export type TMeta = {
   tag: string;
-  props: object;
+  props: TProps;
 };
 
 abstract class Block {
@@ -17,19 +17,19 @@ abstract class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  protected _props: any;
+  _element: HTMLElement;
 
-  protected _children: any;
+  protected _props: TProps;
 
-  private readonly _id: string | null;
-
-  protected _element: HTMLElement;
+  protected _children: TProps;
 
   protected _meta: TMeta;
 
   protected _eventBus: EventBus;
 
   private _setUpdate = false;
+
+  private readonly _id: string | null;
 
   constructor(tag = 'div', propsAndChildren = {}) {
     const { children, props } = this.getChildren(propsAndChildren);
@@ -43,7 +43,7 @@ abstract class Block {
     this._eventBus.emit(Block.EVENTS.INIT);
   }
 
-   _registerEvents() {
+  _registerEvents() {
     this._eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -54,30 +54,31 @@ abstract class Block {
     if (typeof (props) === 'undefined') {
       props = this._props;
     }
-    const propsAndStubs: { [key:string]: string } = { ...props };
-    Object.entries(this._children).forEach(([key, child]) => {
+    const propsAndStubs: TProps = { ...props };
+    Object.entries(this._children).forEach(([key, child]: [string, any]): void => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
-    const fragment = this._createDocumentElement('template');
+
+    const fragment: any = Block._createDocumentElement('template');
     fragment.innerHTML = template(propsAndStubs);
-    Object.values(this._children).forEach((child) => {
-      const stub: HTMLElement = fragment.content.querySelector(`[data-id="${child._id}"]`);
+    Object.values(this._children).forEach((child: Block): void => {
+      const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
       if (stub) stub.replaceWith(child.getContent());
     });
     return fragment.content;
   }
 
-   _createDocumentElement(tagName: string) {
+  static _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
   init() {
-    this._element = this._createDocumentElement(this._meta.tag);
+    this._element = Block._createDocumentElement(this._meta.tag);
     this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   _render() {
-    const block: HTMLElement = this.render();
+    const block = this.render();
     this._removeEvents();
     this._element.innerHTML = '';
     this._element.appendChild(block);
@@ -85,16 +86,17 @@ abstract class Block {
     this.addAttribute();
   }
 
-   render() {}
+  abstract render(): DocumentFragment;
 
-   _componentDidUpdate(oldProps: any, newProps:any) {
-    const response = Block.componentDidUpdate(oldProps, newProps);
+  _componentDidUpdate(oldProps: TProps, newProps:TProps) {
+    const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
-   componentDidUpdate(oldProps, newProps) {
+  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
+  componentDidUpdate(_oldProps: TProps, _newProps: TProps) {
     return true;
   }
 
@@ -141,32 +143,33 @@ abstract class Block {
     return this._element;
   }
 
-   _addEvents() {
+  _addEvents(): void {
     const { events = {} } = this._props;
-
-    Object.keys(events).forEach((eventName) => {
-      this._element.addEventListener(eventName, events[eventName]);
+    Object.keys(events as Record<string, () => void>).forEach((eventName) => {
+      // @ts-ignore
+      this._element.addEventListener(eventName, events[eventName] as () => void);
     });
   }
 
-   _removeEvents() {
+  _removeEvents(): void {
     const { events = {} } = this._props;
 
-    Object.keys(events).forEach((eventName) => {
+    Object.keys(events as Record<string, () => void>).forEach((eventName) => {
+      // @ts-ignore
       this._element.removeEventListener(eventName, events[eventName]);
     });
   }
 
   addAttribute() {
     const { attr = {} } = this._props;
-    Object.entries(attr).forEach(([key, value]) => {
+    Object.entries(attr as Record<string, string>).forEach(([key, value]) => {
       this._element.setAttribute(key, value);
     });
   }
 
-   getChildren(propsAndChildren: TProps) {
-    const children: { [key: string]: any } = {};
-    const props: { [key: string]: any } = {};
+  getChildren(propsAndChildren: TProps) {
+    const children: TProps = {};
+    const props: TProps = {};
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
@@ -191,7 +194,7 @@ abstract class Block {
     }
   }
 
-   componentDidMount() {
+  componentDidMount() : void {
 
   }
 
