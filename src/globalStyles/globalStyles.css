@@ -1,0 +1,81 @@
+:root {
+  --main-bg-color: #3369f3;
+  --main-border-color: #eaeaea;
+  --main-text-color: #1e1e1e;
+  --blue-text: #3369f3;
+  --main-grey: #999;
+  --bg-messag: #f8f8f8;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 13px;
+  font-family: Inter, sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+#root {
+  height: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1024px;
+}
+
+.wrapper-form {
+  padding: 50px 0 0;
+}
+
+.error-validator {
+  background: #fac0c5;
+  border: 4px dotted red;
+}
+
+/*# sourceMappingURL=globalStyles.css.map */

@@ -1,0 +1,80 @@
+.wrapper__form-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper__ava {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.profile-ava {
+  display: none;
+}
+
+.label-ava {
+  width: 130px;
+  height: 130px;
+  display: block;
+}
+
+.profile-name {
+  margin-top: 25px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--main-text-color);
+}
+
+.form-profile {
+  margin: 0 auto;
+  width: 510px;
+}
+.form-profile__inputs {
+  display: flex;
+  flex-direction: column;
+}
+.form-profile__buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+.form-profile__buttons .button-change-data {
+  margin-bottom: 15px;
+  background: none;
+  color: var(--blue-text);
+  text-align: left;
+  font-size: 16px;
+  line-height: 16px;
+}
+.form-profile__buttons .button-change-pass {
+  background: none;
+  color: var(--blue-text);
+  text-align: left;
+  font-size: 16px;
+  line-height: 16px;
+}
+.form-profile__link {
+  margin-top: 25px;
+  color: red;
+  text-align: left;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.label-input {
+  font-size: 16px;
+  color: var(--main-text-color);
+}
+.label-input__input {
+  text-align: right;
+}
+.label-input__input::placeholder {
+  font-size: 16px;
+  color: var(--main-grey);
+}
+
+/*# sourceMappingURL=profile.css.map */
