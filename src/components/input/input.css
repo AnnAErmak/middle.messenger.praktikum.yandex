@@ -7,10 +7,10 @@
 }
 .label-input__input {
   margin-top: 10px;
-  color: #1E1E1E;
+  color: var(--main-text-color);
   font-size: 13px;
   line-height: 13px;
-  border-bottom: 1px solid #3369F3;
+  border-bottom: 1px solid var(--main-bg-color);
 }
 .label-input__input::placeholder {
   color: #1E1E1E;

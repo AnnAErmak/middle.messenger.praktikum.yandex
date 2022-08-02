@@ -1,0 +1,11 @@
+<h2 class="form-{{formName}}__caption">{{titleForm}}</h2>
+<fieldset class="form-{{formName}}__inputs">
+{{#each inputs}}
+    {{{this}}}
+{{/each}}
+</fieldset>
+<fieldset class="form-{{formName}}__buttons">
+        {{{button}}}
+        {{{buttonFixPass}}}
+    <a class="form-{{formName}}__link" href={{hrefForm}}>{{linkName}}</a>
+</fieldset>
