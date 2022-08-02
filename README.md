@@ -1,7 +1,7 @@
 
 # Приложение для обмена сообщениями.
 
-## ссылка на ПР
+## ссылка на ПР.
 https://github.com/AnnAErmak/middle.messenger.praktikum.yandex/pull/5#issue-1325583541
 
 ## ссылка на deploy
@@ -11,6 +11,7 @@ https://eloquent-liger-e7a33b.netlify.app/
 
 ## ссылка на макет Figma 
 https://www.figma.com/file/55Bdqy4cZViEVuMq1Ce8wY/Chat-UI?node-id=0%3A1
+
 
 ## Основные команды
 
