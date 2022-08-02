@@ -5,6 +5,10 @@ const regexpEmail = /^[a-z\d-]+@[a-z\d-]+\.[a-z]+$/i;
 const regexpPassword = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
 const regexpMessage = /.+/;
 
+type DataForm = {
+  [key: string]: string;
+};
+
 const decoratorInvalid = (element: HTMLFormElement) => {
   if (!element.classList.contains('error-validator')) {
     element.classList.add('error-validator');
@@ -58,9 +62,7 @@ const isValidField = (field: HTMLFormElement) => {
       throw new Error(`Данный элемент ${field} не может быть провалидирован`);
   }
 };
-type DataForm = {
-  [key: string]: string;
-};
+
 const isValidForm = (form: HTMLFormElement): void => {
   const dataForm: DataForm = {};
   let errors = 0;
@@ -75,6 +77,7 @@ const isValidForm = (form: HTMLFormElement): void => {
     ? console.log('необходимо корректно заполнить все поля формы!!!')
     : console.log(dataForm);
 };
+
 function isValid(element: HTMLFormElement): void {
   (element.tagName === 'FORM') ? isValidForm(element) : isValidField(element);
 }

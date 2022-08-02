@@ -1,5 +1,5 @@
 import Input from './input';
-import {IInput} from "./types";
+import { IInput } from './types';
 
 export const inputsLogin: IInput = {
   inputLogin: new Input('label', {
@@ -22,9 +22,6 @@ export const inputsProfile: IInput = {
     placeholder: 'почта',
     labelName: 'Почта',
     value: 'batman89@arkham.ru',
-    attr: {
-      class: 'label-input',
-    },
   }),
   inputLogin: new Input('label', {
     inputType: 'text',
@@ -68,9 +65,6 @@ export const inputs: IInput = {
     name: 'email',
     placeholder: 'почта',
     labelName: 'Почта',
-    attr: {
-      class: 'label-input',
-    },
   }),
   inputLogin: new Input('label', {
     inputType: 'text',
