@@ -6,7 +6,10 @@
     "declaration-colon-space-after": "always-single-line",
     "color-hex-case": "lower",
     "at-rule-no-unknown": null,
-    "scss/at-rule-no-unknown": true
+    "scss/at-rule-no-unknown": true,
+    "indentation": 4,
+    "no-missing-end-of-source-newline": false,
+    "no-empty-source": null
   },
   "ignoreFiles": [
     ".cache/*",
