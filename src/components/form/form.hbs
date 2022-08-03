@@ -1,8 +1,21 @@
 <h2 class="form-{{formName}}__caption">{{titleForm}}</h2>
 <fieldset class="form-{{formName}}__inputs">
-{{#each inputs}}
-    {{{this}}}
-{{/each}}
+    {{{labelEmail}}}
+        {{{inputEmail}}}
+    {{{labelLogin}}}
+        {{{inputLogin}}}
+    {{{labelFirstName}}}
+        {{{inputFirstName}}}
+    {{{labelSecondName}}}
+        {{{inputSecondName}}}
+    {{{labelChatName}}}
+        {{{inputChatName}}}
+    {{{labelPhone}}}
+        {{{inputPhone}}}
+    {{{labelPassword}}}
+        {{{inputPassword}}}
+    {{{labelPasswordAgain}}}
+     {{{inputPasswordAgain}}}
 </fieldset>
 <fieldset class="form-{{formName}}__buttons">
         {{{button}}}

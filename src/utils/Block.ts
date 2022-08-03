@@ -9,7 +9,7 @@ export type TMeta = {
   props: TProps;
 };
 
-abstract class Block {
+abstract class Block<Props extends {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -19,7 +19,7 @@ abstract class Block {
 
   _element: HTMLElement;
 
-  protected _props: TProps;
+  protected _props: Props;
 
   protected _children: TProps;
 
@@ -31,7 +31,7 @@ abstract class Block {
 
   private readonly _id: string | null;
 
-  constructor(tag = 'div', propsAndChildren = {}) {
+  constructor(tag = 'div', propsAndChildren: Props = {}) {
     const { children, props } = this.getChildren(propsAndChildren);
     this._eventBus = new EventBus();
     this._id = makeUUID();

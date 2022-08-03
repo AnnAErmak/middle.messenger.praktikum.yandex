@@ -1,12 +1,13 @@
 import './login.css';
 import '../../globalStyles/globalStyles.scss';
 import LoginPage from './login';
-import { getInputs, renderTemplate } from '../../utils/utils';
-import isValid from '../../utils/validator';
+import { renderTemplate } from '../../utils/utils';
 import Header from '../../components/header/header';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
-import { inputsLogin } from '../../components/input/inputTypes';
+import Input from '../../components/input/input';
+import Label from '../../components/label/label';
+import { LoginPageProps } from './types';
 
 const header = new Header('header', {
   attr: {
@@ -24,26 +25,68 @@ const button = new Button('button', {
 });
 
 const formLogin = new Form('form', {
-  inputs: getInputs(inputsLogin),
+  labelLogin: new Label('label', {
+    labelName: 'Логин',
+    attr: {
+      class: 'label-input',
+    },
+  }),
+  inputLogin: new Input('input', {
+    events: {
+      focus: (e) => {
+        console.log(e.target.tagName);
+      },
+      blur: (e) => { console.log('blur'); },
+    },
+    attr: {
+      type: 'text',
+      name: 'login',
+      placeholder: 'логин',
+      class: 'label-input__input',
+      id: 'login',
+    },
+  }),
+
+  labelPassword: new Label('label', {
+    labelName: 'Пароль',
+    attr: {
+      class: 'label-input',
+    },
+  }),
+  inputPassword: new Input('input', {
+    events: {
+      focus: (e) => {},
+      blur: (e) => {},
+    },
+    attr: {
+      type: 'password',
+      name: 'password',
+      placeholder: 'пароль',
+      class: 'label-input__input',
+      id: 'password',
+    },
+  }),
   button,
   formName: 'login',
   hrefForm: './signin.html',
   linkName: 'Регистрация',
+  invisibleLogin: 'invisible',
   attr: {
     class: 'form-login',
     method: 'get',
     action: '#',
   },
   events: {
-    submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
+    submit: (e) => {
       e.preventDefault();
-      isValid(e.target as HTMLFormElement);
+      console.log('submit');
+      // isValid(e.target as HTMLFormElement);
     },
   },
   titleForm: 'Вход',
 });
 
-const loginPage = new LoginPage('div', {
+const loginPage = new LoginPage<LoginPageProps>('div', {
   formLogin,
   header,
   attr: {

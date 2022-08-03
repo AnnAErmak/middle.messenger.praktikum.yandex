@@ -12,7 +12,7 @@
     "no-unused-expressions": "off",
     "@typescript-eslint/no-unused-expressions": ["error", { "allowTernary": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-    "no-param-reassign": 0
-//    "class-methods-use-this": ["error", { "exceptMethods": ["componentDidMount", "getChildren"] }]
+    "no-param-reassign": 0,
+    "class-methods-use-this": ["error", { "exceptMethods": ["componentDidMount", "getChildren"] }]
   }
 }

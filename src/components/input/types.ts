@@ -1,5 +1,11 @@
-import Input from './input';
-
-export interface IInput {
-  [key: string]: Input;
-}
+export type InputProps = {
+  inputType: string;
+  name: string;
+  placeholder: string;
+  labelName: string;
+  value?: string;
+  events:{
+    focus: Record<string, (event: Event) => void>
+    blur: Record<string, (event: Event) => void>
+  };
+};

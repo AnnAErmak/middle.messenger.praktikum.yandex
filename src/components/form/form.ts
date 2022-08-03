@@ -1,17 +1,43 @@
 import Block from '../../utils/Block';
 import formTemplate from './form.hbs';
-import isValid from '../../utils/validator';
+import Input from '../input/input';
+import Button from '../button/button';
+import Label from '../label/label';
 
-export default class Form extends Block {
+type FormProps = {
+  inputPassword?: Input;
+  inputLogin?: Input;
+  inputPasswordAgain?: Input;
+  inputPhone?: Input;
+  inputSecondName?: Input;
+  inputFirstName?: Input;
+  inputEmail?: Input;
+  inputChatName?: Input;
+  labelPassword?: Label;
+  labelLogin?: Label;
+  labelPasswordAgain?: Label;
+  labelPhone?: Label;
+  labelSecondName?: Label;
+  labelFirstName?: Label;
+  labelEmail?: Label;
+  labelChatName?: Label;
+  button: Button;
+  formName: string;
+  hrefForm: string;
+  linkName: string;
+  titleForm: string;
+  attr: {
+    class: string;
+    method: string;
+    action: string;
+  },
+  events: {
+    submit: (e: Event) => void;
+  },
+};
+
+export default class Form extends Block<FormProps> {
   render() {
     return this.compile(formTemplate, this._props);
-  }
-
-  _addEvents() {
-    super._addEvents();
-    this._element.querySelectorAll('input').forEach((input) => {
-      input.addEventListener('focus', (e) => isValid(e.target as HTMLFormElement));
-      input.addEventListener('blur', (e) => isValid(e.target as HTMLFormElement));
-    });
   }
 }
