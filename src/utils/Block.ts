@@ -1,12 +1,9 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
 
-export type TProps = {
-  [key: string]: unknown;
-};
 export type TMeta = {
   tag: string;
-  props: TProps;
+  props: any;
 };
 
 abstract class Block<Props extends {}> {
@@ -43,7 +40,7 @@ abstract class Block<Props extends {}> {
     this._eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _registerEvents() {
+  private _registerEvents() {
     this._eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -77,7 +74,7 @@ abstract class Block<Props extends {}> {
     this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  _render() {
+  private _render() {
     const block = this.render();
     this._removeEvents();
     this._element.innerHTML = '';
@@ -88,7 +85,7 @@ abstract class Block<Props extends {}> {
 
   abstract render(): DocumentFragment;
 
-  _componentDidUpdate(oldProps: TProps, newProps:TProps) {
+  private _componentDidUpdate(oldProps: TProps, newProps:TProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
@@ -120,7 +117,7 @@ abstract class Block<Props extends {}> {
     }
   };
 
-  _makePropsProxy(props: any) {
+  private _makePropsProxy(props: any) {
     return new Proxy(props, {
       get: (target, prop) => {
         const value = target[prop];
@@ -143,7 +140,7 @@ abstract class Block<Props extends {}> {
     return this._element;
   }
 
-  _addEvents(): void {
+  private _addEvents(): void {
     const { events = {} } = this._props;
     Object.keys(events as Record<string, () => void>).forEach((eventName) => {
       // @ts-ignore
@@ -151,7 +148,7 @@ abstract class Block<Props extends {}> {
     });
   }
 
-  _removeEvents(): void {
+  private _removeEvents(): void {
     const { events = {} } = this._props;
 
     Object.keys(events as Record<string, () => void>).forEach((eventName) => {
@@ -180,7 +177,7 @@ abstract class Block<Props extends {}> {
     return { children, props };
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
     Object.values(this._children).forEach((child: any) => {
       child.dispatchComponentDidMount();

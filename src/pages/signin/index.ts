@@ -1,6 +1,6 @@
 import './signin.scss';
 import { Signin } from './signin';
-import { renderTemplate } from '../../utils/utils';
+import { renderTemplate } from '../../utils/renderTemplate';
 import { Header } from '../../components/header/header';
 import { Form } from '../../components/form/form';
 import { Button } from '../../components/button/button';

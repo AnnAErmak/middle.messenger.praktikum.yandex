@@ -3,7 +3,7 @@ import '../../globalStyles/globalStyles.scss';
 import { Header } from '../../components/header/header';
 import { Button } from '../../components/button/button';
 import { Form } from '../../components/form/form';
-import { renderTemplate } from '../../utils/utils';
+import { renderTemplate } from '../../utils/renderTemplate';
 import isValid from '../../utils/validator';
 import { Profile } from './profile';
 import { Input } from '../../components/input/input';

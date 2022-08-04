@@ -1,7 +1,7 @@
 import './chat.scss';
 import '../../globalStyles/globalStyles.scss';
 import ChatPage from './chat';
-import { renderTemplate } from '../../utils/utils';
+import { renderTemplate } from '../../utils/renderTemplate';
 import { Header } from '../../components/header/header';
 import isValid from '../../utils/validator';
 

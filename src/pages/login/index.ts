@@ -1,12 +1,13 @@
 import './login.scss';
 import '../../globalStyles/globalStyles.scss';
 import { LoginPage } from './login';
-import { renderTemplate } from '../../utils/utils';
+import { renderTemplate } from '../../utils/renderTemplate';
 import { Header } from '../../components/header/header';
 import { Button } from '../../components/button/button';
 import { Form } from '../../components/form/form';
 import { Input } from '../../components/input/input';
 import { Label } from '../../components/label/label';
+import { validatorForm, isValidField, toggleError } from '../../utils/validator';
 
 const header = new Header('header', {
   attr: {
@@ -32,10 +33,8 @@ const formLogin = new Form('form', {
   }),
   inputLogin: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => { if (!isValidField(e.target.name, e.target.value)) toggleError(e.target); },
+      blur: (e) => { if (isValidField(e.target.name, e.target.value)) toggleError(e.target); },
     },
     attr: {
       type: 'text',
@@ -76,8 +75,7 @@ const formLogin = new Form('form', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      console.log('submit');
-      // isValid(e.target as HTMLFormElement);
+      console.log(validatorForm(e.target));
     },
   },
   titleForm: 'Вход',

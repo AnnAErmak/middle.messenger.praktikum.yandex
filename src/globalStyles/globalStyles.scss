@@ -80,9 +80,7 @@ img {
 }
 .error-message {
   display: none;
-  &__visible{
-    text-align: center;
-    color: red;
-    border: 1px solid red;
-  }
+  color: red;
+  border: 1px solid red;
+  margin-bottom: 5px;
 }
