@@ -1,31 +1,36 @@
-.wrapper-chat{
+.wrapper-chat {
   display: flex;
   height: 600px;
   margin-top: 50px;
 }
-.chat-list{
+
+.chat-list {
   width: 300px;
   height: 600px;
   border: 1px solid var(--main-border-color);
-  &__settings{
+
+  &__settings {
     display: flex;
     justify-content: space-between;
     height: 100px;
-    //border-bottom: 1px solid #EAEAEA;
     padding: 20px;
   }
-  &__wrapper{
+
+  &__wrapper {
     width: 300px;
     height: 600px;
   }
-  &__img-add{
+
+  &__img-add {
     width: 20px;
     height: 20px;
   }
-  &__users{
+
+  &__users {
     padding: 30px;
   }
-  &__user{
+
+  &__user {
     align-items: center;
     height: 80px;
     display: flex;
@@ -34,21 +39,24 @@
     border-top: 2px solid var(--main-border-color);
   }
 }
+
 .chat-messages {
-  &__wrapper{
+  &__wrapper {
     height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-  &__caption{
+
+  &__caption {
     display: flex;
     justify-content: space-between;
     padding: 10px 15px;
     height: 54px;
     border-bottom: 2px solid var(--main-border-color);
   }
-  &__sign{
+
+  &__sign {
     display: flex;
     flex: 1 1 auto;
     margin-left: 8px;
@@ -56,15 +64,17 @@
     font-weight: 600;
     font-size: 13px;
     line-height: 13px;
-    color: var(--main-text-color)
+    color: var(--main-text-color);
   }
-  &__messages{
+
+  &__messages {
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
     justify-content: flex-end;
   }
-  &__date{
+
+  &__date {
     text-align: center;
     margin-bottom: 25px;
     color: var(--main-grey);
@@ -72,7 +82,8 @@
     font-size: 16px;
     line-height: 16px;
   }
-  &__response{
+
+  &__response {
     width: 50%;
     background: var(--bg-messag);
     color: var(--main-text-color);
@@ -83,8 +94,9 @@
     padding: 10px;
     border-radius: 25px;
   }
-  &__my-text{
-    background: #E4EDFD;
+
+  &__my-text {
+    background: #e4edfd;
     width: 120px;
     min-height: 40px;
     text-align: center;
@@ -92,26 +104,29 @@
     font-size: 16px;
     line-height: 26px;
     border-radius: 15px;
-    align-self:end;
+    align-self: end;
     padding-top: 5px;
   }
-  &__wrapper-form{
+
+  &__wrapper-form {
     padding-top: 20px;
     border-top: 2px solid var(--main-border-color);
     margin-top: 20px;
-    .form-chat{
+
+    .form-chat {
       display: flex;
       justify-content: space-between;
-      &__img-menu{}
-      &__mess{
+
+      &__mess {
         flex: 1 0 auto;
         color: var(--main-grey);
-        background:var(--bg-messag);
+        background: var(--bg-messag);
         border-radius: 10px;
         padding-left: 10px;
         margin: 0 15px;
       }
-      &__sub{
+
+      &__sub {
         background: var(--main-bg-color);
         color: var(--bg-messag);
         border-radius: 10px;

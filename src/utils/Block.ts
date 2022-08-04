@@ -1,15 +1,15 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './EventBus';
 
-export type TProps = {
-  [key: string]: unknown;
-};
 export type TMeta = {
   tag: string;
-  props: TProps;
+  props: any;
 };
 
-abstract class Block {
+type TPropsTemplate = {
+  [key:string]: string
+};
+abstract class Block<TProps extends {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -31,7 +31,7 @@ abstract class Block {
 
   private readonly _id: string | null;
 
-  constructor(tag = 'div', propsAndChildren = {}) {
+  constructor(tag = 'div', propsAndChildren: TProps) {
     const { children, props } = this.getChildren(propsAndChildren);
     this._eventBus = new EventBus();
     this._id = makeUUID();
@@ -43,25 +43,25 @@ abstract class Block {
     this._eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _registerEvents() {
+  private _registerEvents() {
     this._eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     this._eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  compile(template: (props:TProps) => string, props: {}) {
+  compile(template: (props: TPropsTemplate) => string, props: {}) {
     if (typeof (props) === 'undefined') {
       props = this._props;
     }
-    const propsAndStubs: TProps = { ...props };
-    Object.entries(this._children).forEach(([key, child]: [string, any]): void => {
+    const propsAndStubs: TPropsTemplate = { ...props };
+    Object.entries(this._children).forEach(([key, child]: [string, { _id:string }]): void => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
 
     const fragment: any = Block._createDocumentElement('template');
     fragment.innerHTML = template(propsAndStubs);
-    Object.values(this._children).forEach((child: Block): void => {
+    Object.values(this._children).forEach((child: any): void => {
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
       if (stub) stub.replaceWith(child.getContent());
     });
@@ -77,7 +77,7 @@ abstract class Block {
     this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  _render() {
+  private _render() {
     const block = this.render();
     this._removeEvents();
     this._element.innerHTML = '';
@@ -88,7 +88,7 @@ abstract class Block {
 
   abstract render(): DocumentFragment;
 
-  _componentDidUpdate(oldProps: TProps, newProps:TProps) {
+  private _componentDidUpdate(oldProps: TProps, newProps:TProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
@@ -100,7 +100,7 @@ abstract class Block {
     return true;
   }
 
-  setProps = (nextProps: any) => {
+  setProps = (nextProps: TProps) => {
     if (!nextProps) {
       return;
     }
@@ -120,7 +120,7 @@ abstract class Block {
     }
   };
 
-  _makePropsProxy(props: any) {
+  private _makePropsProxy(props: any) {
     return new Proxy(props, {
       get: (target, prop) => {
         const value = target[prop];
@@ -143,19 +143,17 @@ abstract class Block {
     return this._element;
   }
 
-  _addEvents(): void {
+  private _addEvents(): void {
     const { events = {} } = this._props;
     Object.keys(events as Record<string, () => void>).forEach((eventName) => {
-      // @ts-ignore
       this._element.addEventListener(eventName, events[eventName] as () => void);
     });
   }
 
-  _removeEvents(): void {
+  private _removeEvents(): void {
     const { events = {} } = this._props;
 
     Object.keys(events as Record<string, () => void>).forEach((eventName) => {
-      // @ts-ignore
       this._element.removeEventListener(eventName, events[eventName]);
     });
   }
@@ -180,7 +178,7 @@ abstract class Block {
     return { children, props };
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
     Object.values(this._children).forEach((child: any) => {
       child.dispatchComponentDidMount();

@@ -1,12 +1,16 @@
-import './login.css';
+import './login.scss';
 import '../../globalStyles/globalStyles.scss';
-import LoginPage from './login';
-import { getInputs, renderTemplate } from '../../utils/utils';
-import isValid from '../../utils/validator';
-import Header from '../../components/header/header';
-import Button from '../../components/button/button';
-import Form from '../../components/form/form';
-import { inputsLogin } from '../../components/input/inputTypes';
+import { LoginPage } from './login';
+import { renderTemplate } from '../../utils/renderTemplate';
+import { Header } from '../../components/header/header';
+import { Button } from '../../components/button/button';
+import { Form } from '../../components/form/form';
+import { Input } from '../../components/input/input';
+import { Label } from '../../components/label/label';
+import {
+  validatorForm, isValidField, addError, removeError,
+} from '../../utils/validator';
+
 
 const header = new Header('header', {
   attr: {
@@ -24,7 +28,42 @@ const button = new Button('button', {
 });
 
 const formLogin = new Form('form', {
-  inputs: getInputs(inputsLogin),
+  labelLogin: new Label('label', {
+    labelName: 'Логин',
+    attr: {
+      class: 'label-input',
+    },
+  }),
+  inputLogin: new Input('input', {
+    events: {
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    },
+    attr: {
+      type: 'text',
+      name: 'login',
+      placeholder: 'логин',
+      class: 'label-input__input',
+    },
+  }),
+  labelPassword: new Label('label', {
+    labelName: 'Пароль',
+    attr: {
+      class: 'label-input',
+    },
+  }),
+  inputPassword: new Input('input', {
+    events: {
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    },
+    attr: {
+      type: 'password',
+      name: 'password',
+      placeholder: 'пароль',
+      class: 'label-input__input',
+    },
+  }),
   button,
   formName: 'login',
   hrefForm: './signin.html',
@@ -35,9 +74,9 @@ const formLogin = new Form('form', {
     action: '#',
   },
   events: {
-    submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
+    submit: (e) => {
       e.preventDefault();
-      isValid(e.target as HTMLFormElement);
+      console.log(validatorForm(e.target));
     },
   },
   titleForm: 'Вход',

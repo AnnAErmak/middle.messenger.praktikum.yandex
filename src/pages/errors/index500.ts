@@ -1,7 +1,7 @@
 import '../../globalStyles/globalStyles.scss';
 import './errors.scss';
-import PageError from './PageError';
-import { renderTemplate } from '../../utils/utils';
+import { PageError } from './PageError';
+import { renderTemplate } from '../../utils/renderTemplate';
 
 const page500 = new PageError('div', {
   codeError: '500',

@@ -1,85 +1,85 @@
-const regexpLogin = /^(?!\d+$)[\w-]{3,20}$/i;
-const regexpName = /^[A-ZА-ЯЁ][A-Za-zА-Яа-яёЁ-]*$/;
-const regexpPhone = /^\+?\d{10,15}$/;
-const regexpEmail = /^[a-z\d-]+@[a-z\d-]+\.[a-z]+$/i;
-const regexpPassword = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
-const regexpMessage = /.+/;
+const REGEXPLOGIN = /^(?!\d+$)[\w-]{3,20}$/i;
+const REGEXPNAME = /^[A-ZА-ЯЁ][A-Za-zА-Яа-яёЁ-]*$/;
+const REGEXPPHONE = /^\+?\d{10,15}$/;
+const REGEXPEMAIL = /^[a-z\d-]+@[a-z\d-]+\.[a-z]+$/i;
+const REGEXPPASSWORD = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
+const REGEXPMESSAGE = /.+/;
 
+enum FIELDSNAMES {
+  LOGIN = 'login',
+  EMAIL = 'email',
+  PHONE = 'phone',
+  MESSAGE = 'message',
+  PASSWORD = 'password',
+  PASSWORDAGAIN = 'passwordAgain',
+  FIRST_NAME = 'first_name',
+  SECOND_NAME = 'second_name',
+}
 type DataForm = {
   [key: string]: string;
 };
 
-const decoratorInvalid = (element: HTMLFormElement) => {
+const addError = (element: HTMLFormElement) => {
+  const errorMessage: any = document.querySelector(`[data-name = ${element.name}]`);
   if (!element.classList.contains('error-validator')) {
     element.classList.add('error-validator');
+    errorMessage.style.display = 'block';
   }
 };
-const decoratorValid = (element: HTMLFormElement) => {
+
+const removeError = (element: HTMLFormElement) => {
+  const errorMessage: any = document.querySelector(`[data-name = ${element.name}]`);
   if (element.classList.contains('error-validator')) {
     element.classList.remove('error-validator');
+    errorMessage.style.display = 'none';
   }
 };
 
-const isValidField = (field: HTMLFormElement) => {
-  switch (field.name) {
-    case 'login': {
-      const resLogin = regexpLogin.test(field.value);
-      !resLogin ? decoratorInvalid(field) : decoratorValid(field);
-      return resLogin;
+const isValidField = (nameElement: string, valueElement: string) => {
+  switch (nameElement) {
+    case FIELDSNAMES.LOGIN: {
+      return REGEXPLOGIN.test(valueElement);
     }
-    case 'email': {
-      const resEmail = regexpEmail.test(field.value);
-      !resEmail ? decoratorInvalid(field) : decoratorValid(field);
-      return resEmail;
+    case FIELDSNAMES.EMAIL: {
+      return REGEXPEMAIL.test(valueElement);
     }
-    case 'phone': {
-      const resMass = regexpPhone.test(field.value);
-      !resMass ? decoratorInvalid(field) : decoratorValid(field);
-      return resMass;
+    case FIELDSNAMES.PHONE: {
+      return REGEXPPHONE.test(valueElement);
     }
-    case 'message': {
-      const resPhone = regexpMessage.test(field.value);
-      !resPhone ? decoratorInvalid(field) : decoratorValid(field);
-      return resPhone;
+    case FIELDSNAMES.MESSAGE: {
+      return REGEXPMESSAGE.test(valueElement);
     }
-    case 'password':
-    case 'passwordAgain': {
-      const resPass = regexpPassword.test(field.value);
-      !resPass ? decoratorInvalid(field) : decoratorValid(field);
-      return resPass;
+    case FIELDSNAMES.PASSWORD:
+    case FIELDSNAMES.PASSWORDAGAIN: {
+      return REGEXPPASSWORD.test(valueElement);
     }
-    case 'first_name':
-    case 'second_name': {
-      const resName = regexpName.test(field.value);
-      !resName ? decoratorInvalid(field) : decoratorValid(field);
-      return resName;
+    case FIELDSNAMES.FIRST_NAME:
+    case FIELDSNAMES.SECOND_NAME: {
+      return REGEXPNAME.test(valueElement);
     }
-    case 'img-menu':
-    case 'sub':
-    case 'chat_name':
-      return true;
     default:
-      throw new Error(`Данный элемент ${field} не может быть провалидирован`);
+      return true;
   }
 };
 
-const isValidForm = (form: HTMLFormElement): void => {
+const validatorForm = (form: HTMLFormElement): DataForm | string => {
   const dataForm: DataForm = {};
-  let errors = 0;
+  let error = 0;
   Array.from(form.elements).forEach((field:HTMLFormElement) => {
     if (field.tagName === 'INPUT') {
-      isValidField(field)
-        ? dataForm[field.name] = field.value
-        : errors += 1;
+      if (!isValidField(field.name, field.value)) {
+        addError(field);
+        error += 1;
+      }
+      dataForm[field.name] = field.value;
     }
   });
-  errors
-    ? console.log('необходимо корректно заполнить все поля формы!!!')
-    : console.log(dataForm);
+  return error ? 'Необходимо правельно заполнить поля формы' : dataForm;
 };
 
-function isValid(element: HTMLFormElement): void {
-  (element.tagName === 'FORM') ? isValidForm(element) : isValidField(element);
-}
-
-export default isValid;
+export {
+  validatorForm,
+  isValidField,
+  removeError,
+  addError,
+};
