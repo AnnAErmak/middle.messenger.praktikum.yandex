@@ -1,4 +1,4 @@
-import './login.css';
+import './login.scss';
 import '../../globalStyles/globalStyles.scss';
 import LoginPage from './login';
 import { renderTemplate } from '../../utils/utils';
@@ -7,7 +7,6 @@ import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
-import { LoginPageProps } from './types';
 
 const header = new Header('header', {
   attr: {
@@ -43,10 +42,8 @@ const formLogin = new Form('form', {
       name: 'login',
       placeholder: 'логин',
       class: 'label-input__input',
-      id: 'login',
     },
   }),
-
   labelPassword: new Label('label', {
     labelName: 'Пароль',
     attr: {
@@ -55,22 +52,22 @@ const formLogin = new Form('form', {
   }),
   inputPassword: new Input('input', {
     events: {
-      focus: (e) => {},
-      blur: (e) => {},
+      focus: (e) => {
+        console.log(e.target.tagName);
+      },
+      blur: (e) => { console.log('blur'); },
     },
     attr: {
       type: 'password',
       name: 'password',
       placeholder: 'пароль',
       class: 'label-input__input',
-      id: 'password',
     },
   }),
   button,
   formName: 'login',
   hrefForm: './signin.html',
   linkName: 'Регистрация',
-  invisibleLogin: 'invisible',
   attr: {
     class: 'form-login',
     method: 'get',
@@ -86,7 +83,7 @@ const formLogin = new Form('form', {
   titleForm: 'Вход',
 });
 
-const loginPage = new LoginPage<LoginPageProps>('div', {
+const loginPage = new LoginPage('div', {
   formLogin,
   header,
   attr: {

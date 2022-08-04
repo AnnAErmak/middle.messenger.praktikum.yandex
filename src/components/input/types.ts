@@ -1,11 +1,13 @@
 export type InputProps = {
-  inputType: string;
-  name: string;
-  placeholder: string;
-  labelName: string;
-  value?: string;
+  attr: {
+    type: string;
+    name: string;
+    placeholder: string;
+    class: string;
+    value?: string;
+  },
   events:{
-    focus: Record<string, (event: Event) => void>
-    blur: Record<string, (event: Event) => void>
+    focus: (event: Event) => void;
+    blur: (event: Event) => void;
   };
 };
