@@ -1,14 +1,13 @@
 import './profile.scss';
 import '../../globalStyles/globalStyles.scss';
-import Header from '../../components/header/header';
-import Button from '../../components/button/button';
-import Form from '../../components/form/form';
-import { getInputs, renderTemplate } from '../../utils/utils';
-import { inputsProfile } from '../../components/input/inputTypes';
+import { Header } from '../../components/header/header';
+import { Button } from '../../components/button/button';
+import { Form } from '../../components/form/form';
+import { renderTemplate } from '../../utils/utils';
 import isValid from '../../utils/validator';
-import Profile from './profile';
-import Input from '../../components/input/input';
-import Label from '../../components/label/label';
+import { Profile } from './profile';
+import { Input } from '../../components/input/input';
+import { Label } from '../../components/label/label';
 
 const header = new Header('header', {
   attr: {

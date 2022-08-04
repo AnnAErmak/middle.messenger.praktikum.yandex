@@ -5,6 +5,7 @@
   --blue-text: #3369f3;
   --main-grey: #999;
   --bg-messag: #f8f8f8;
+  --bg-grey: #fbfbfb;
 }
 
 * {
@@ -76,4 +77,12 @@ img {
 .error-validator {
   background: #fac0c5;
   border: 4px dotted red;
+}
+.error-message {
+  display: none;
+  &__visible{
+    text-align: center;
+    color: red;
+    border: 1px solid red;
+  }
 }

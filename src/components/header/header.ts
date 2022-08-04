@@ -4,7 +4,7 @@ import headerTemplate from './header.hbs';
 import Block from '../../utils/Block';
 import { HeaderProps } from './types';
 
-export default class Header extends Block<HeaderProps> {
+export class Header extends Block<HeaderProps> {
   render() {
     return this.compile(headerTemplate, this._props);
   }

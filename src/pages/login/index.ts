@@ -1,12 +1,12 @@
 import './login.scss';
 import '../../globalStyles/globalStyles.scss';
-import LoginPage from './login';
+import { LoginPage } from './login';
 import { renderTemplate } from '../../utils/utils';
-import Header from '../../components/header/header';
-import Button from '../../components/button/button';
-import Form from '../../components/form/form';
-import Input from '../../components/input/input';
-import Label from '../../components/label/label';
+import { Header } from '../../components/header/header';
+import { Button } from '../../components/button/button';
+import { Form } from '../../components/form/form';
+import { Input } from '../../components/input/input';
+import { Label } from '../../components/label/label';
 
 const header = new Header('header', {
   attr: {
@@ -53,7 +53,7 @@ const formLogin = new Form('form', {
   inputPassword: new Input('input', {
     events: {
       focus: (e) => {
-        console.log(e.target.tagName);
+
       },
       blur: (e) => { console.log('blur'); },
     },

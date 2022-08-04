@@ -1,6 +1,6 @@
-import Input from '../input/input';
-import Label from '../label/label';
-import Button from '../button/button';
+import { Input } from '../input/input';
+import { Label } from '../label/label';
+import { Button } from '../button/button';
 
 export type FormProps = {
   inputPassword?: Input;

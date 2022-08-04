@@ -1,13 +1,12 @@
 import './signin.scss';
-import Signin from './signin';
-import { getInputs, renderTemplate } from '../../utils/utils';
-import Header from '../../components/header/header';
-import Form from '../../components/form/form';
-import Button from '../../components/button/button';
+import { Signin } from './signin';
+import { renderTemplate } from '../../utils/utils';
+import { Header } from '../../components/header/header';
+import { Form } from '../../components/form/form';
+import { Button } from '../../components/button/button';
 import isValid from '../../utils/validator';
-import { inputs } from '../../components/input/inputTypes';
-import Label from '../../components/label/label';
-import Input from '../../components/input/input';
+import { Label } from '../../components/label/label';
+import { Input } from '../../components/input/input';
 
 const header = new Header('header', {
   attr: {

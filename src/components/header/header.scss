@@ -1,5 +1,5 @@
 .header {
-  background-color: #fbfbfb;
+  background-color: var(--bg-grey);
   height: 80px;
   &__caption {
     color: var(--blue-text);

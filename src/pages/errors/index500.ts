@@ -1,6 +1,6 @@
 import '../../globalStyles/globalStyles.scss';
 import './errors.scss';
-import PageError from './PageError';
+import { PageError } from './PageError';
 import { renderTemplate } from '../../utils/utils';
 
 const page500 = new PageError('div', {
