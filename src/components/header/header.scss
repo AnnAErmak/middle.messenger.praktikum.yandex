@@ -1,0 +1,25 @@
+.header {
+  background-color: var(--bg-grey);
+  height: 80px;
+  &__caption {
+    color: var(--blue-text);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  &__nav {
+    padding: 10px;
+  }
+}
+
+.menu__list {
+  display: flex;
+}
+
+.menu__item {
+  flex-grow: 1;
+}
+
+.menu__link {
+  color: var(--blue-text);
+  font-size: 20px;
+}

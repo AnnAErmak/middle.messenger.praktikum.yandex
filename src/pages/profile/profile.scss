@@ -1,0 +1,85 @@
+.wrapper__form-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper__ava {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.profile-ava {
+  display: none;
+}
+
+.label-ava {
+  width: 130px;
+  height: 130px;
+  display: block;
+}
+
+.profile-name {
+  margin-top: 25px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--main-text-color);
+}
+
+.form-profile {
+  margin: 0 auto;
+  width: 510px;
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+
+    .button-change-data {
+      margin-bottom: 15px;
+      background: none;
+      color: var(--blue-text);
+      text-align: left;
+      font-size: 16px;
+      line-height: 16px;
+    }
+
+    .button-change-pass {
+      background: none;
+      color: var(--blue-text);
+      text-align: left;
+      font-size: 16px;
+      line-height: 16px;
+    }
+  }
+
+  &__link {
+    margin-top: 25px;
+    color: red;
+    text-align: left;
+    font-size: 16px;
+    line-height: 16px;
+  }
+}
+
+.label-input {
+  font-size: 16px;
+  color: var(--main-text-color);
+
+  &__input {
+    text-align: right;
+  }
+
+  &__input::placeholder {
+    font-size: 16px;
+    color: var(--main-grey);
+  }
+}

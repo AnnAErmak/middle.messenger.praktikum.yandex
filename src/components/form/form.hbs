@@ -1,0 +1,53 @@
+<h2 class="form-{{formName}}__caption">{{titleForm}}</h2>
+<fieldset class="form-{{formName}}__inputs">
+    {{{labelEmail}}}
+        {{{inputEmail}}}
+        <div data-name = 'email' class="error-message">
+            Только латиница, может
+            включать цифры и спецсимволы вроде дефиса,
+            обязательно должна быть «собака» (@) и точка
+            после неё, но перед точкой обязательно должны
+            быть буквы
+        </div>
+    {{{labelLogin}}}
+        {{{inputLogin}}}
+    <div data-name = 'login' class="error-message">
+        Может состоять от 3 до 20 символов, латиница, может содержать
+        цифры, но не состоять из них, без пробелов,
+        без спецсимволов (допустимы дефис и нижнее подчёркивание)
+    </div>
+    {{{labelFirstName}}}
+        {{{inputFirstName}}}
+    <div data-name = 'first_name' class="error-message">
+        Ожидается латиница или кириллица, первая буква должна быть заглавной,
+        без пробелов и без цифр, нет спецсимволов (допустим только дефис).
+    </div>
+    {{{labelSecondName}}}
+        {{{inputSecondName}}}
+    <div data-name = 'second_name' class="error-message">
+        Ожидается латиница или кириллица, первая буква должна быть заглавной,
+        без пробелов и без цифр, нет спецсимволов (допустим только дефис).
+    </div>
+    {{{labelChatName}}}
+        {{{inputChatName}}}
+    {{{labelPhone}}}
+        {{{inputPhone}}}
+    <div data-name = 'phone' class="error-message">
+        Может быть от 10 до 15 символов, состоит из цифр, может начинается с плюса
+    </div>
+    {{{labelPassword}}}
+        {{{inputPassword}}}
+    <div data-name = 'password' class="error-message">
+        Может быть от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра.
+    </div>
+    {{{labelPasswordAgain}}}
+     {{{inputPasswordAgain}}}
+    <div data-name = 'passwordAgain' class="error-message">
+        Может быть от от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра.
+    </div>
+</fieldset>
+<fieldset class="form-{{formName}}__buttons">
+        {{{button}}}
+        {{{buttonFixPass}}}
+    <a class="form-{{formName}}__link" href={{hrefForm}}>{{linkName}}</a>
+</fieldset>
