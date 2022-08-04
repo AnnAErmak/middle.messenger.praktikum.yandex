@@ -6,6 +6,6 @@ export type ChatPageProps = {
     class: string;
   },
   events: {
-    submit: (e: EventListener) => void;
+    submit: (e: Event) => void;
   };
 };

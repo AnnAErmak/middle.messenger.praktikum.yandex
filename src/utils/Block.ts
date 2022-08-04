@@ -6,7 +6,10 @@ export type TMeta = {
   props: any;
 };
 
-abstract class Block<Props extends {}> {
+type TPropsTemplate = {
+  [key:string]: string
+};
+abstract class Block<TProps extends {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -16,7 +19,7 @@ abstract class Block<Props extends {}> {
 
   _element: HTMLElement;
 
-  protected _props: Props;
+  protected _props: TProps;
 
   protected _children: TProps;
 
@@ -28,7 +31,7 @@ abstract class Block<Props extends {}> {
 
   private readonly _id: string | null;
 
-  constructor(tag = 'div', propsAndChildren: Props = {}) {
+  constructor(tag = 'div', propsAndChildren: TProps) {
     const { children, props } = this.getChildren(propsAndChildren);
     this._eventBus = new EventBus();
     this._id = makeUUID();
@@ -47,18 +50,18 @@ abstract class Block<Props extends {}> {
     this._eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  compile(template: (props:TProps) => string, props: {}) {
+  compile(template: (props: TPropsTemplate) => string, props: {}) {
     if (typeof (props) === 'undefined') {
       props = this._props;
     }
-    const propsAndStubs: TProps = { ...props };
-    Object.entries(this._children).forEach(([key, child]: [string, any]): void => {
+    const propsAndStubs: TPropsTemplate = { ...props };
+    Object.entries(this._children).forEach(([key, child]: [string, { _id:string }]): void => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
 
     const fragment: any = Block._createDocumentElement('template');
     fragment.innerHTML = template(propsAndStubs);
-    Object.values(this._children).forEach((child: Block): void => {
+    Object.values(this._children).forEach((child: any): void => {
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
       if (stub) stub.replaceWith(child.getContent());
     });
@@ -97,7 +100,7 @@ abstract class Block<Props extends {}> {
     return true;
   }
 
-  setProps = (nextProps: any) => {
+  setProps = (nextProps: TProps) => {
     if (!nextProps) {
       return;
     }
@@ -143,7 +146,6 @@ abstract class Block<Props extends {}> {
   private _addEvents(): void {
     const { events = {} } = this._props;
     Object.keys(events as Record<string, () => void>).forEach((eventName) => {
-      // @ts-ignore
       this._element.addEventListener(eventName, events[eventName] as () => void);
     });
   }
@@ -152,7 +154,6 @@ abstract class Block<Props extends {}> {
     const { events = {} } = this._props;
 
     Object.keys(events as Record<string, () => void>).forEach((eventName) => {
-      // @ts-ignore
       this._element.removeEventListener(eventName, events[eventName]);
     });
   }

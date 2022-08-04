@@ -7,7 +7,10 @@ import { Button } from '../../components/button/button';
 import { Form } from '../../components/form/form';
 import { Input } from '../../components/input/input';
 import { Label } from '../../components/label/label';
-import { validatorForm, isValidField, toggleError } from '../../utils/validator';
+import {
+  validatorForm, isValidField, addError, removeError,
+} from '../../utils/validator';
+
 
 const header = new Header('header', {
   attr: {
@@ -33,8 +36,8 @@ const formLogin = new Form('form', {
   }),
   inputLogin: new Input('input', {
     events: {
-      focus: (e) => { if (!isValidField(e.target.name, e.target.value)) toggleError(e.target); },
-      blur: (e) => { if (isValidField(e.target.name, e.target.value)) toggleError(e.target); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'text',
@@ -51,10 +54,8 @@ const formLogin = new Form('form', {
   }),
   inputPassword: new Input('input', {
     events: {
-      focus: (e) => {
-
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'password',

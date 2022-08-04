@@ -1,11 +1,11 @@
+import { queryStringify, ParamQuery } from './queryStringify';
+
 export enum METHODS {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',
 }
-
-type ParamQuery = Record<string, string | number | Array<string | number>>;
 interface IRequestOptions {
   method?: string
   retries?: number
@@ -13,26 +13,28 @@ interface IRequestOptions {
   timeout?: number
   headers?: Record<string, string>
 }
-function queryStringify(data: ParamQuery) {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
-}
-
 class HTTPTransport {
-  get = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.GET });
+  get = (
+    url: string,
+  ): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(METHODS.GET, url);
+    xhr.onload = () => {
+      resolve(xhr);
+    };
+    xhr.onabort = reject;
+    xhr.onerror = reject;
+    xhr.ontimeout = reject;
+    xhr.send();
+  });
 
-  post = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.POST });
+  post = (url: string, options:IRequestOptions = {}) => this.request(url, { ...options, method: METHODS.POST });
 
-  put = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.PUT });
+  put = (url: string, options: IRequestOptions = {}) => this.request(url, { ...options, method: METHODS.PUT });
 
-  delete = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.DELETE });
+  delete = (url: string, options: IRequestOptions = {}) => this.request(url, { ...options, method: METHODS.DELETE });
 
-  // eslint-disable-next-line class-methods-use-this
-  private request(
+  request(
     url: string,
     options: IRequestOptions = {},
     timeout = 5000,
@@ -44,16 +46,8 @@ class HTTPTransport {
         reject(new Error('No method'));
         return;
       }
-
       const xhr = new XMLHttpRequest();
-      const isGet = method === METHODS.GET;
-
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data)}`
-          : url,
-      );
+      xhr.open(method, `${url}${queryStringify(data)}`);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
@@ -62,17 +56,11 @@ class HTTPTransport {
       xhr.onload = () => {
         resolve(xhr);
       };
-
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
-
-      if (isGet || !data) {
-        xhr.send();
-      } else {
-        xhr.send(JSON.stringify(data));
-      }
+      xhr.send(JSON.stringify(data));
     });
   }
 }

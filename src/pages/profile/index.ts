@@ -4,10 +4,10 @@ import { Header } from '../../components/header/header';
 import { Button } from '../../components/button/button';
 import { Form } from '../../components/form/form';
 import { renderTemplate } from '../../utils/renderTemplate';
-import isValid from '../../utils/validator';
 import { Profile } from './profile';
 import { Input } from '../../components/input/input';
 import { Label } from '../../components/label/label';
+import {addError, isValidField, removeError, validatorForm} from "../../utils/validator";
 
 const header = new Header('header', {
   attr: {
@@ -41,10 +41,8 @@ const formProfile = new Form('form', {
   }),
   inputEmail: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'email',
@@ -62,10 +60,8 @@ const formProfile = new Form('form', {
   }),
   inputLogin: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'text',
@@ -83,10 +79,8 @@ const formProfile = new Form('form', {
   }),
   inputFirstName: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'text',
@@ -104,10 +98,8 @@ const formProfile = new Form('form', {
   }),
   inputSecondName: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'text',
@@ -125,10 +117,8 @@ const formProfile = new Form('form', {
   }),
   inputChatName: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'text',
@@ -146,10 +136,8 @@ const formProfile = new Form('form', {
   }),
   inputPhone: new Input('input', {
     events: {
-      focus: (e) => {
-        console.log(e.target.tagName);
-      },
-      blur: (e) => { console.log('blur'); },
+      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
     },
     attr: {
       type: 'phone',
@@ -170,9 +158,9 @@ const formProfile = new Form('form', {
     action: '#',
   },
   events: {
-    submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
+    submit: (e) => {
       e.preventDefault();
-      isValid(e.target);
+      console.log(validatorForm(e.target));
     },
   },
 

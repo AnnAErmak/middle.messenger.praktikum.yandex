@@ -1,9 +1,9 @@
-const regexpLogin = /^(?!\d+$)[\w-]{3,20}$/i;
-const regexpName = /^[A-ZА-ЯЁ][A-Za-zА-Яа-яёЁ-]*$/;
-const regexpPhone = /^\+?\d{10,15}$/;
-const regexpEmail = /^[a-z\d-]+@[a-z\d-]+\.[a-z]+$/i;
-const regexpPassword = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
-const regexpMessage = /.+/;
+const REGEXPLOGIN = /^(?!\d+$)[\w-]{3,20}$/i;
+const REGEXPNAME = /^[A-ZА-ЯЁ][A-Za-zА-Яа-яёЁ-]*$/;
+const REGEXPPHONE = /^\+?\d{10,15}$/;
+const REGEXPEMAIL = /^[a-z\d-]+@[a-z\d-]+\.[a-z]+$/i;
+const REGEXPPASSWORD = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
+const REGEXPMESSAGE = /.+/;
 
 enum FIELDSNAMES {
   LOGIN = 'login',
@@ -19,12 +19,17 @@ type DataForm = {
   [key: string]: string;
 };
 
-const toggleError = (element: HTMLFormElement) => {
+const addError = (element: HTMLFormElement) => {
   const errorMessage: any = document.querySelector(`[data-name = ${element.name}]`);
   if (!element.classList.contains('error-validator')) {
     element.classList.add('error-validator');
     errorMessage.style.display = 'block';
-  } else {
+  }
+};
+
+const removeError = (element: HTMLFormElement) => {
+  const errorMessage: any = document.querySelector(`[data-name = ${element.name}]`);
+  if (element.classList.contains('error-validator')) {
     element.classList.remove('error-validator');
     errorMessage.style.display = 'none';
   }
@@ -33,24 +38,24 @@ const toggleError = (element: HTMLFormElement) => {
 const isValidField = (nameElement: string, valueElement: string) => {
   switch (nameElement) {
     case FIELDSNAMES.LOGIN: {
-      return regexpLogin.test(valueElement);
+      return REGEXPLOGIN.test(valueElement);
     }
     case FIELDSNAMES.EMAIL: {
-      return regexpEmail.test(valueElement);
+      return REGEXPEMAIL.test(valueElement);
     }
     case FIELDSNAMES.PHONE: {
-      return regexpPhone.test(valueElement);
+      return REGEXPPHONE.test(valueElement);
     }
     case FIELDSNAMES.MESSAGE: {
-      return regexpMessage.test(valueElement);
+      return REGEXPMESSAGE.test(valueElement);
     }
     case FIELDSNAMES.PASSWORD:
     case FIELDSNAMES.PASSWORDAGAIN: {
-      return regexpPassword.test(valueElement);
+      return REGEXPPASSWORD.test(valueElement);
     }
     case FIELDSNAMES.FIRST_NAME:
     case FIELDSNAMES.SECOND_NAME: {
-      return regexpName.test(valueElement);
+      return REGEXPNAME.test(valueElement);
     }
     default:
       return true;
@@ -59,19 +64,22 @@ const isValidField = (nameElement: string, valueElement: string) => {
 
 const validatorForm = (form: HTMLFormElement): DataForm | string => {
   const dataForm: DataForm = {};
+  let error = 0;
   Array.from(form.elements).forEach((field:HTMLFormElement) => {
     if (field.tagName === 'INPUT') {
       if (!isValidField(field.name, field.value)) {
-        toggleError(field);
+        addError(field);
+        error += 1;
       }
       dataForm[field.name] = field.value;
     }
   });
-  return dataForm;
+  return error ? 'Необходимо правельно заполнить поля формы' : dataForm;
 };
 
 export {
   validatorForm,
   isValidField,
-  toggleError,
+  removeError,
+  addError,
 };
