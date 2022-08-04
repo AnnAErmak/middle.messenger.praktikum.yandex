@@ -16,7 +16,7 @@ const chatPage = new ChatPage('div', {
     class: 'container',
   },
   events: {
-    submit: (e: { preventDefault: () => void; target: HTMLFormElement; }) => {
+    submit: (e) => {
       e.preventDefault();
       isValid(e.target);
     },
