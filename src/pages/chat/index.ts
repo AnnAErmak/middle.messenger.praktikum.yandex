@@ -24,3 +24,5 @@ const chatPage = new ChatPage('div', {
 });
 
 renderTemplate('#root', chatPage);
+
+export {chatPage}

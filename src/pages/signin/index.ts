@@ -180,3 +180,4 @@ const signinPage = new Signin('div', {
 });
 
 renderTemplate('#root', signinPage);
+ export {signinPage}

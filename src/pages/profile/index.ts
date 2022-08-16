@@ -176,3 +176,5 @@ const profilePage = new Profile('div', {
 });
 
 renderTemplate('#root', profilePage);
+
+export {profilePage}

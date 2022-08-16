@@ -11,7 +11,6 @@ import {
   validatorForm, isValidField, addError, removeError,
 } from '../../utils/validator';
 
-
 const header = new Header('header', {
   attr: {
     class: 'container header',
@@ -88,7 +87,7 @@ const loginPage = new LoginPage('div', {
   attr: {
     class: 'container',
   },
-
 });
 
 renderTemplate('#root', loginPage);
+export { loginPage };

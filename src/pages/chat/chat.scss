@@ -14,6 +14,32 @@
     height: 100px;
     padding: 20px;
   }
+  .search-form{
+    display: inline-flex;
+    padding: 0 20px;
+    margin: 0 15px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    background: var(--bg-messag);
+    overflow: hidden;
+    &__txt{
+      border: none;
+      width: 200px;
+      height: 32px;
+      outline: none;
+      background: var(--bg-messag);
+    }
+    &__btn{
+      border: none;
+      background: var(--bg-messag);
+    }
+    &__image{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
   &__wrapper {
     width: 300px;
     height: 600px;
