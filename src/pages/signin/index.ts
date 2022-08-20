@@ -9,6 +9,8 @@ import {
 } from '../../utils/validator';
 import { Label } from '../../components/label/label';
 import { Input } from '../../components/input/input';
+import UserSigninController from "../../utils/controllers/UserController";
+import {Link} from "../../components/link/link";
 
 const header = new Header('header', {
   attr: {
@@ -23,6 +25,13 @@ const button = new Button('button', {
     type: 'submit',
   },
 
+});
+const link = new Link('a', {
+  linkName: 'Войти',
+  attr: {
+    class: 'form-signin__link',
+    href: '/',
+  },
 });
 
 const formRegistration = new Form('form', {
@@ -153,6 +162,7 @@ const formRegistration = new Form('form', {
     },
   }),
   button,
+  link,
   formName: 'signin',
   hrefForm: './login.html',
   linkName: 'Войти',
@@ -164,7 +174,7 @@ const formRegistration = new Form('form', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      console.log(validatorForm(e.target));
+      //UserSigninController.signin('123')
     },
   },
   titleForm: 'Регистрация',

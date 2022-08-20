@@ -62,7 +62,7 @@ const isValidField = (nameElement: string, valueElement: string) => {
   }
 };
 
-const validatorForm = (form: HTMLFormElement): DataForm | string => {
+const validatorForm = (form: HTMLFormElement): DataForm | boolean => {
   const dataForm: DataForm = {};
   let error = 0;
   Array.from(form.elements).forEach((field:HTMLFormElement) => {
@@ -74,7 +74,7 @@ const validatorForm = (form: HTMLFormElement): DataForm | string => {
       dataForm[field.name] = field.value;
     }
   });
-  return error ? 'Необходимо правельно заполнить поля формы' : dataForm;
+  return error ? false : dataForm;
 };
 
 export {

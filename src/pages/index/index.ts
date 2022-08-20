@@ -3,13 +3,15 @@ import { loginPage } from '../login/index';
 import { signinPage } from '../signin/index';
 import { profilePage } from '../profile/index';
 import { chatPage } from '../chat/index';
+import { HTTPTransport } from '../../utils/HTTPTransport';
 
+const http = new HTTPTransport();
+const router = new Router('#root');
+router
+  .use('/', loginPage)
+  .use('/sign-up', signinPage)
+  .use('/settings', profilePage)
+  .use('/messenger', chatPage);
 
-  const router = new Router('#root');
- router
-     .use('/', loginPage)
-     .use('/sign-up', signinPage)
-     .use('/settings', profilePage)
-     .use('/messenger', chatPage)
-     .start();
-
+http.get('https://ya-praktikum.tech/api/v2/auth/user')
+  .then((res) => (res.status === 200 ? router.go('/messenger') : router.go('/')))

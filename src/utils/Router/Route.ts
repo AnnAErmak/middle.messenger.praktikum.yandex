@@ -1,6 +1,6 @@
 import { renderTemplate } from '../renderTemplate';
 
-class Route {
+export class Route {
   constructor(pathname, view, props) {
     this._pathname = pathname;
     this._block = view;

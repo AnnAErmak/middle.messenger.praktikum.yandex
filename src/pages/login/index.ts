@@ -1,6 +1,6 @@
 import './login.scss';
 import '../../globalStyles/globalStyles.scss';
-import { LoginPage } from './login';
+import  LoginPage  from './login';
 import { renderTemplate } from '../../utils/renderTemplate';
 import { Header } from '../../components/header/header';
 import { Button } from '../../components/button/button';
@@ -10,12 +10,16 @@ import { Label } from '../../components/label/label';
 import {
   validatorForm, isValidField, addError, removeError,
 } from '../../utils/validator';
+import { UserController } from '../../utils/controllers/UserController';
+import { HTTPTransport } from '../../utils/HTTPTransport';
+import { Link } from '../../components/link/link';
+import {connect} from "../../utils/connect";
 
-const header = new Header('header', {
-  attr: {
-    class: 'container header',
-  },
-});
+// const header = new Header('header', {
+//   attr: {
+//     class: 'container header',
+//   },
+// });
 
 const button = new Button('button', {
   textButton: 'Войти',
@@ -24,6 +28,13 @@ const button = new Button('button', {
     type: 'submit',
   },
 
+});
+const link = new Link('a', {
+  linkName: 'Регистрация',
+  attr: {
+    class: 'form-login__link',
+    href: '/sign-up',
+  },
 });
 
 const formLogin = new Form('form', {
@@ -64,6 +75,7 @@ const formLogin = new Form('form', {
     },
   }),
   button,
+  link,
   formName: 'login',
   hrefForm: './signin.html',
   linkName: 'Регистрация',
@@ -75,7 +87,72 @@ const formLogin = new Form('form', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      console.log(validatorForm(e.target));
+      const loginController = new UserController();
+      loginController.login(e.target);
+      // UserController.login(e.target)
+      // const userAPIInstance = new HTTPTransport();
+      // userAPIInstance.get('https://ya-praktikum.tech/api/v2/auth/user').then(data => console.log(data))
+      // let xhr = new XMLHttpRequest();
+      // xhr.open('GET', 'https://ya-praktikum.tech/api/v2/auth/user')
+      // xhr.responseType = 'json';
+      // //xhr.setRequestHeader('Content-Type', 'application/json');
+      // xhr.withCredentials = true;
+      // xhr.send()
+      // xhr.onload = () => console.log(xhr)
+
+      // fetch('https://ya-praktikum.tech/api/v2/auth/signin', {
+      //   method: 'POST',
+      //   credentials: 'include', // Нужно подставлять куки
+      //   mode: 'cors', // Работаем с CORS
+      //   headers: {
+      //     'content-type': 'application/json', // Данные отправляем в формате JSON
+      //   },
+      //   body: JSON.stringify({
+      //     login: 'ERM2',
+      //     password: '123SSFFdfdf2',
+      //   }),
+      // })
+      //   .then((response) => response.text()) // Можно вытащить через .json()
+      //   .then((data) => {
+      //     console.log(data);
+      //     return data;
+      //   })
+      // .then((data) => {
+      //   fetch('https://ya-praktikum.tech/api/v2/auth/user', { // Получаем подробную информацию о пользователе и проверяем, что куки проставились
+      //     method: 'GET',
+      //     mode: 'cors',
+      //     credentials: 'include',
+      //   })
+      //     .then((r) => r.json())
+      //     .then((data) => {
+      //       console.log('user', data);
+      //     });
+      // });
+
+      // const resp = userAPIInstance.post(
+      //   'https://ya-praktikum.tech/api/v2/auth/signin',
+      //   {
+      //     headers: {
+      //       'content-type': 'application/json',
+      //     },
+      //     credentials: 'include',
+      //     data: {
+      //       login: 'ERM2',
+      //       password: '123SSFFdfdf2',
+      //     },
+      //   },
+      // )
+      //   .then((data) => data.responseText)
+      //   .then(() => {
+      //     fetch('https://ya-praktikum.tech/api/v2/auth/user')
+      //       .then((data) => console.log(data));
+      //   })
+      // ;
+
+      // setTimeout(() => {
+      //   const resp = fetch('https://ya-praktikum.tech/api/v2/auth/user')
+      //     .then((data) => console.log(data));
+      // }, 2000);
     },
   },
   titleForm: 'Вход',
@@ -83,11 +160,11 @@ const formLogin = new Form('form', {
 
 const loginPage = new LoginPage('div', {
   formLogin,
-  header,
+  //header,
   attr: {
     class: 'container',
   },
 });
 
-renderTemplate('#root', loginPage);
+//renderTemplate('#root', loginPage);
 export { loginPage };

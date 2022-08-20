@@ -19,9 +19,8 @@ class HTTPTransport {
   ): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(METHODS.GET, url);
-    xhr.onload = () => {
-      resolve(xhr);
-    };
+    xhr.withCredentials = true;
+    xhr.onload = () => resolve(xhr);
     xhr.onabort = reject;
     xhr.onerror = reject;
     xhr.ontimeout = reject;
@@ -48,7 +47,8 @@ class HTTPTransport {
       }
       const xhr = new XMLHttpRequest();
       xhr.open(method, `${url}${queryStringify(data)}`);
-
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
       });

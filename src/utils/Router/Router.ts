@@ -1,3 +1,4 @@
+import {Route} from "./Route";
 export class Router {
   constructor(rootQuery) {
     if (Router.__instance) {
