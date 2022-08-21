@@ -7,6 +7,7 @@ import { validatorForm } from '../../utils/validator';
 import { HTTPTransport } from '../../utils/HTTPTransport';
 import { Button } from '../../components/button/button';
 
+/// //////Добавление чата
 const addChatBtn = new Button('button', {
   textButton: 'Добавить чат',
   attr: {
@@ -44,6 +45,7 @@ const addChatBtn = new Button('button', {
     },
   },
 });
+/// //////Добавление чата конец
 
 const chatPage = new ChatPage('div', {
   addChatBtn,
@@ -53,50 +55,63 @@ const chatPage = new ChatPage('div', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      // console.log(validatorForm(e.target));
+      if (validatorForm(e.target)) {
+        const chatObj = JSON.parse(localStorage.getItem('chatObj'));
+        console.log(chatObj)
+        const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/72519/${chatObj.id}/${chatObj.token}`);
+        socket.addEventListener('open', ()=>{
+          console.log('click')
+          socket.send(JSON.stringify({
+            content: 'Моё второе сообщение миру!',
+            type: 'message',
+          }));
+        })
+
+
+      }
     },
   },
 });
+
+/// /////Открываем страницу с чатами
 const http = new HTTPTransport();
 http.get('https://ya-praktikum.tech/api/v2/chats')
   .then((res) => renderChatLists(JSON.parse(res.responseText)));
 
 function renderChatLists(list) {
-  const chatList = list.map((chat) => `<li>${chat.title}</li>`);
+  const chatList = list.map((chat) => `<li id =${chat.id} class="item-chat">${chat.title}</li>`);
   const chl = document.querySelector('.chat-list__users');
-  chl.innerHTML = chatList.join();
-}
+  chl.innerHTML = chatList.join('');
 
-
-http.get('https://ya-praktikum.tech/api/v2/auth/user')
-  .then((res) => JSON.parse(res.responseText))
-  .then(data => {
-    http.post('https://ya-praktikum.tech/api/v2/chats/token/870', {
-      headers:
-          {
-            'content-type':
-                'application/json',
-          },
-      data:{}
-    })
-        .then(token => {
-
-          console.log(token.response)
-          const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${data.id}/870/${token.response.token}`);
+  chl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'LI') {
+      http.post(`https://ya-praktikum.tech/api/v2/chats/token/${e.target.id}`, { data: {} })
+        .then((token) => token.response.token)
+        .then((t) => {
+          const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/72519/${e.target.id}/${t}`);
+          const chatObj ={
+            id: e.target.id,
+            token: t
+          }
+          localStorage.setItem('chatObj', JSON.stringify(chatObj));
           socket.addEventListener('open', () => {
-            console.log('Соединение установлено');
-
             socket.send(JSON.stringify({
-              content: 'Моё первое сообщение миру!',
-              type: 'message',
+              content: '0',
+              type: 'get old',
             }));
           });
-          socket.addEventListener('message', event => {
-            console.log('Получены данные', event.data);
+          socket.addEventListener('message', (event) => {
+            const messages = JSON.parse(event.data).map(item=> {
+              return `<div><h3>${item.user_id}</h3><div>${item.content}</div></div>`
+            })
+          const chat = document.querySelector('.chat-messages__messages')
+            chat.innerHTML = messages.join('')
           });
-        })
+        });
+    }
+  });
+}
 
-})
 
 
 
