@@ -21,7 +21,7 @@ abstract class Block<TProps extends {}> {
 
   protected _props: TProps;
 
-  protected _children: TProps;
+  protected _children: TProps = {};
 
   protected _meta: TMeta;
 
@@ -32,13 +32,14 @@ abstract class Block<TProps extends {}> {
   private readonly _id: string | null;
 
   constructor(tag = 'div', propsAndChildren: TProps) {
-    const { children, props } = this.getChildren(propsAndChildren);
+    //const { children, props } = this.getChildren(propsAndChildren);
     this._eventBus = new EventBus();
     this._id = makeUUID();
-    this._children = children;
-    this._children = this._makePropsProxy(children);
-    this._props = this._makePropsProxy({ ...props, __id: this._id });
-    this._meta = { tag, props };
+    this._children = propsAndChildren.children || {};
+    //console.log(this._children)
+    //this._children = this._makePropsProxy(children);
+    this._props = this._makePropsProxy({ ...propsAndChildren, __id: this._id });
+    this._meta = { tag, propsAndChildren };
     this._registerEvents();
     this._eventBus.emit(Block.EVENTS.INIT);
   }
@@ -56,12 +57,28 @@ abstract class Block<TProps extends {}> {
     }
     const propsAndStubs: TPropsTemplate = { ...props };
     Object.entries(this._children).forEach(([key, child]: [string, { _id:string }]): void => {
+      if (Array.isArray(child)) {
+        propsAndStubs[key] = [];
+        child.map((ch) =>
+            propsAndStubs[key].push(`<div data-id="id-${ch._id}"></div>`)
+        );
+        return;
+      }
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
-
     const fragment: any = Block._createDocumentElement('template');
     fragment.innerHTML = template(propsAndStubs);
+
     Object.values(this._children).forEach((child: any): void => {
+      if (Array.isArray(child)) {
+        child.map((ch) => {
+          const stub = fragment.content.querySelector(
+              `[data-id="id-${ch._id}"]`
+          );
+          stub.replaceWith(ch.getContent()!);
+        });
+        return;
+      }
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
       if (stub) stub.replaceWith(child.getContent());
     });
@@ -180,9 +197,9 @@ abstract class Block<TProps extends {}> {
 
   private _componentDidMount() {
     this.componentDidMount();
-    Object.values(this._children).forEach((child: any) => {
-      child.dispatchComponentDidMount();
-    });
+    // Object.values(this._children).forEach((child: any) => {
+    //   child.dispatchComponentDidMount();
+    // });
   }
 
   dispatchComponentDidMount() {

@@ -13,7 +13,7 @@ import {
 import { UserController } from '../../utils/controllers/UserController';
 import { HTTPTransport } from '../../utils/HTTPTransport';
 import { Link } from '../../components/link/link';
-import {connect} from "../../utils/connect";
+import {connect} from "../../utils/Store/connect";
 
 // const header = new Header('header', {
 //   attr: {

@@ -2,7 +2,7 @@ import '../../globalStyles/globalStyles.scss';
 import loginTemplate from './login.hbs';
 import Block from '../../utils/Block';
 import { LoginPageProps } from './types';
-import {connect} from "../../utils/connect";
+import {connect} from "../../utils/Store/connect";
 
  class LoginPage extends Block<LoginPageProps> {
   render() {
@@ -10,4 +10,4 @@ import {connect} from "../../utils/connect";
   }
 }
 
-export default connect(LoginPage);
+//export default connect(LoginPage);

@@ -175,3 +175,26 @@
 li{
   cursor: pointer;
 }
+.sear-form{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  display: none;
+}
+.content-sear{
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sear-input{
+  outline: #1e1e1e;
+  border: #1e1e1e solid 2px;
+}
+.sear-res{
+  height: 50px;
+  border: #1e1e1e solid 2px;
+}

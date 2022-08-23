@@ -1,4 +1,12 @@
 <div class="wrapper-chat">
+    <div class="sear-form">
+        <div class="content-sear">
+            <input class="sear-input" type="text">
+            <button class="sear-btn">OK</button>
+            <button class="btn-cancel">Отменить</button>
+            <div class="sear-res"></div>
+        </div>
+    </div>
     <div class = 'add-chat-modal'>
         <div class="wrapper-madal">
             <div class="content-modal">
@@ -22,6 +30,9 @@
         </div>
         <div class="chat-list__wrapper">
             <ul class="chat-list__users">
+            {{#each chatList}}
+                {{{this}}}
+            {{/each}}
 <!--                <li class="chat-list__user">-->
 <!--                    <div class="chat-list__img-user">-->
 <!--                        <img src="./img/ava_chat.png" alt="аватар чата">-->
@@ -48,9 +59,13 @@
                 </div>
                 <div class="chat-messages__menu">
                     <img src="./img/chat_menu.png" alt="меню чата" class="chat-messages__menu-chat">
+                {{{searchUserBtn}}}
                 </div>
             </div>
             <div class="chat-messages__messages">Выберите чат. Ни один чат не выбран
+                {{#each massagesList}}
+                    {{{this}}}
+                {{/each}}
 <!--                <div class="chat-messages__date">1 августа</div>-->
 <!--                <div class="chat-messages__response">-->
 <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores beatae commodi, dolores doloribus eveniet fugiat iste iure labore laboriosam magnam minus molestiae natus necessitatibus, nisi non officia optio perspiciatis praesentium provident quaerat quos similique, voluptatibus.-->

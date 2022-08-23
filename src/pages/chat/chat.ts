@@ -1,9 +1,12 @@
 import Block from '../../utils/Block';
 import chatTemplate from './chat.hbs';
 import { ChatPageProps } from './types';
+import connect from "../../utils/Store/connect";
 
-export default class ChatPage extends Block<ChatPageProps> {
+class ChatPage extends Block<ChatPageProps> {
   render() {
     return this.compile(chatTemplate, this._props);
   }
 }
+
+export default connect(ChatPage, state => state)
