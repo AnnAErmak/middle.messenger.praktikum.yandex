@@ -10,6 +10,7 @@ import connect from '../../utils/Store/connect';
 import Block from '../../utils/Block';
 import { ChatPageProps } from './types';
 import chatTemplate from './chat.hbs';
+import ChatController from '../../utils/controllers/ChatController';
 
 /// //////Добавление чата
 const addChatBtn = new Button('button', {
@@ -49,7 +50,7 @@ const addChatBtn = new Button('button', {
     },
   },
 });
-//console.log(addChatBtn)
+// console.log(addChatBtn)
 /// //////Добавление чата конец
 /// ////////////Поиск пользователей//////////
 const searchUserBtn = new Button('button', {
@@ -109,69 +110,11 @@ const searchUserBtn = new Button('button', {
 /// /////Создаем страницу/////////
 
 export const chatPage = new ChatPage('div', {
-  children:{
+  children: {
     addChatBtn,
     searchUserBtn,
-    massagesList: [
-      new Button('button', {
-        textButton: 'Б5',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б5")}}),
-      new Button('button', {
-        textButton: 'Б2',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б6")}}),
-      new Button('button', {
-        textButton: 'Б1',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б6")}}),
-      new Button('button', {
-        textButton: 'Б2',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б7")}})
-    ],
-    chatList: [
-      new Button('button', {
-        textButton: 'Б5',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б5")}}),
-      new Button('button', {
-        textButton: 'Б6',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б6")}}),
-      new Button('button', {
-        textButton: 'Б7',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б7")}}),
-      new Button('button', {
-        textButton: 'Б8',
-        attr: {
-          class: 'search-user-btn',
-          type: '',
-        },
-        events:{click: (e) => console.log("Б8")}})
-    ],
+    chatMassages: [],
+    chatList: [],
   },
   attr: {
     class: 'container',
@@ -180,16 +123,8 @@ export const chatPage = new ChatPage('div', {
     submit: (e) => {
       e.preventDefault();
       if (validatorForm(e.target)) {
-        const chatObj = JSON.parse(localStorage.getItem('chatObj'));
-        console.log(chatObj);
-        const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/72519/${chatObj.id}/${chatObj.token}`);
-        socket.addEventListener('open', () => {
-          console.log('click');
-          socket.send(JSON.stringify({
-            content: 'Моё второе сообщение миру!',
-            type: 'message',
-          }));
-        });
+        const chatController = new ChatController();
+        chatController.sendMessage();
       }
     },
   },

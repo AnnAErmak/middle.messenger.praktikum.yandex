@@ -32,14 +32,14 @@ abstract class Block<TProps extends {}> {
   private readonly _id: string | null;
 
   constructor(tag = 'div', propsAndChildren: TProps) {
-    //const { children, props } = this.getChildren(propsAndChildren);
+    const { children, props } = this.getChildren(propsAndChildren);
     this._eventBus = new EventBus();
     this._id = makeUUID();
-    this._children = propsAndChildren.children || {};
+    this._children = children//propsAndChildren.children || {};
     //console.log(this._children)
-    //this._children = this._makePropsProxy(children);
-    this._props = this._makePropsProxy({ ...propsAndChildren, __id: this._id });
-    this._meta = { tag, propsAndChildren };
+    this._children = this._makePropsProxy(children);
+    this._props = this._makePropsProxy({ ...props, __id: this._id });
+    this._meta = { tag, props };
     this._registerEvents();
     this._eventBus.emit(Block.EVENTS.INIT);
   }
@@ -185,13 +185,15 @@ abstract class Block<TProps extends {}> {
   getChildren(propsAndChildren: TProps) {
     const children: TProps = {};
     const props: TProps = {};
+    if(propsAndChildren.children){
+      Object.entries(propsAndChildren.children).forEach(([key, value]) => {
+          children[key] = value;
+      });
+    }
     Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Block) {
-        children[key] = value;
-      } else {
-        props[key] = value;
-      }
-    });
+      props[key] = value;
+    })
+
     return { children, props };
   }
 

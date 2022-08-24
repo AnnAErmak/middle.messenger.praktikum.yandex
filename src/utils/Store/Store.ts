@@ -1,19 +1,32 @@
 import EventBus from '../EventBus';
-import { set } from '../set';
+import set from '../set';
 
 export enum StoreEvents {
   Updated = 'updated',
 }
 
-class Store extends EventBus {
-  private state = {
-    chatPage: {
-      chatList: `<div>Chat_1</div>
-          <div>Chat_2</div>
-          `,
-    },
-    userPage: 'userPage',
-  };
+export default class Store extends EventBus {
+  static _instance;
+
+  state = { };
+
+  constructor() {
+    if (Store._instance) return Store._instance;
+    super();
+    this.state = {
+      chatPage: {
+        children: {
+          chatList: [],
+          chatMassages: [],
+        },
+      },
+      userSeting:{
+        avatar:''
+      },
+    };
+    Store._instance = this;
+    this.on(StoreEvents.Updated, () => console.log(this.getState()));
+  }
 
   public getState() {
     return this.state;
@@ -24,5 +37,3 @@ class Store extends EventBus {
     this.emit(StoreEvents.Updated);
   }
 }
-
-export default new Store();
