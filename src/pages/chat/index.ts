@@ -12,6 +12,8 @@ import { ChatPageProps } from './types';
 import chatTemplate from './chat.hbs';
 import ChatController from '../../utils/controllers/ChatController';
 
+const chatController = new ChatController();
+
 /// //////Добавление чата
 const addChatBtn = new Button('button', {
   textButton: 'Добавить чат',
@@ -21,39 +23,24 @@ const addChatBtn = new Button('button', {
   },
   events: {
     click: (e) => {
-      const modal = document.querySelector('.add-chat-modal');
-      modal.style.display = 'block';
-      const addChat = document.querySelector('.add-chat');
-      const btnCancel = document.querySelector('.btn-cancel');
-      const titleChat = document.querySelector('.title-chat');
-      addChat.addEventListener('click', () => {
-        if (!titleChat.value) return;
-        const http = new HTTPTransport();
-        http.post('https://ya-praktikum.tech/api/v2/chats', {
-          headers: {
-            'content-type': 'application/json',
-          },
-          data: {
-            title: titleChat.value,
-          },
-        })
-          .then(() => {
-            http.get('https://ya-praktikum.tech/api/v2/chats')
-              .then((res) => renderChatLists(JSON.parse(res.responseText)));
-          });
-
-        modal.style.display = 'none';
-      });
-      btnCancel.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
+      chatController.addChat();
     },
   },
 });
-// console.log(addChatBtn)
-/// //////Добавление чата конец
+const removeChatBtn = new Button('button', {
+  textButton: 'Удалить чат',
+  attr: {
+    class: 'remove-chat-btn',
+    type: '',
+  },
+  events: {
+    click: (e) => {
+      chatController.removeChat();
+    },
+  },
+});
 /// ////////////Поиск пользователей//////////
-const searchUserBtn = new Button('button', {
+const addUserBtn = new Button('button', {
   textButton: 'Добавить пользователя',
   attr: {
     class: 'search-user-btn',
@@ -61,58 +48,29 @@ const searchUserBtn = new Button('button', {
   },
   events: {
     click: (e) => {
-      const modal = document.querySelector('.sear-form');
-      modal.style.display = 'block';
-      const input = document.querySelector('.sear-input');
-      const btnCancel = document.querySelector('.btn-cancel');
-      // const titleChat = document.querySelector('.title-chat');
-      input.addEventListener('input', (e) => {
-        const http = new HTTPTransport();
-        http.post('https://ya-praktikum.tech/api/v2/user/search', {
-          headers: {
-            'content-type': 'application/json',
-          },
-          data: {
-            login: e.target.value,
-          },
-        })
-          .then((users) => {
-            const user = users.response.map((el) => `<div id= ${el.id}>${el.login}</div>`);
-            const div = document.querySelector('.sear-res');
-            div.innerHTML = user.join('');
-            div.addEventListener('click', (e) => {
-              e.stopPropagation();
-              console.log(e.target.id);
-              const us = [e.target.id];
-              const chatObj = JSON.parse(localStorage.getItem('chatObj'));
-              http.put('https://ya-praktikum.tech/api/v2/chats/users', {
-                headers: {
-                  'content-type': 'application/json',
-                },
-                data: {
-                  users: [58320],
-                  chatId: 871,
-                },
-              });
-            });
-          });
-        //
-        // modal.style.display = 'none';
-      });
-      btnCancel.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
+      chatController.addUser();
     },
   },
 });
-/// ////////////Поиск пользователей конец//////////
 
-/// /////Создаем страницу/////////
-
+const removeUserBtn = new Button('button', {
+  textButton: 'Удалить пользователя',
+  attr: {
+    class: 'remove-user-btn',
+    type: '',
+  },
+  events: {
+    click: (e) => {
+      chatController.removeUser();
+    },
+  },
+});
 export const chatPage = new ChatPage('div', {
   children: {
     addChatBtn,
-    searchUserBtn,
+    removeChatBtn,
+    addUserBtn,
+    removeUserBtn,
     chatMassages: [],
     chatList: [],
   },
@@ -123,8 +81,7 @@ export const chatPage = new ChatPage('div', {
     submit: (e) => {
       e.preventDefault();
       if (validatorForm(e.target)) {
-        const chatController = new ChatController();
-        chatController.sendMessage();
+        chatController.sendMessage(e.target.elements.message.value);
       }
     },
   },
