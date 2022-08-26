@@ -4,14 +4,30 @@ import { signinPage } from '../signin/index';
 import { profilePage } from '../profile/index';
 import { chatPage } from '../chat/index';
 import { HTTPTransport } from '../../utils/HTTPTransport';
+import { host } from '../../constants';
+import { UserController } from '../../utils/controllers/UserController';
+import Store from '../../utils/Store/Store';
+import Input from '../../components/input/input';
 
 const http = new HTTPTransport();
 const router = new Router('#root');
 router
-  // .use('/', loginPage)
-  // .use('/sign-up', signinPage)
-  // .use('/settings', profilePage)
-  .use('/messenger', chatPage)
-  .start();
-// http.get('https://ya-praktikum.tech/api/v2/auth/user')
-//  .then((res) => (res.status === 200 ? router.go('/messenger') : router.go('/')));
+// .use('/', loginPage)
+// .use('/sign-up', signinPage)
+.use('/settings', profilePage)
+// .use('/messenger', chatPage)
+.start();
+
+// const input = new Input('input', {
+//   attr: {
+//     type: 'text',
+//     name: 'text',
+//     placeholder: 'text',
+//     class: 'text',
+//     value: 'text',
+//   },
+//   events: {
+//     focus: () => {},
+//     blur: () => {},
+//   },
+// });

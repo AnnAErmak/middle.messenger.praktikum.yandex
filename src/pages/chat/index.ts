@@ -11,6 +11,8 @@ import Block from '../../utils/Block';
 import { ChatPageProps } from './types';
 import chatTemplate from './chat.hbs';
 import ChatController from '../../utils/controllers/ChatController';
+import { Link } from '../../components/link/link';
+import {Router} from "../../utils/Router/Router";
 
 const chatController = new ChatController();
 
@@ -65,12 +67,25 @@ const removeUserBtn = new Button('button', {
     },
   },
 });
+const linkSetings = new Link('a', {
+  linkName: 'Профиль',
+  attr: {
+    class: '',
+    href: '/settings',
+  },
+  click: (e) => {
+    e.preventDefault()
+    Router.go('/setings')
+  },
+
+});
 export const chatPage = new ChatPage('div', {
   children: {
     addChatBtn,
     removeChatBtn,
     addUserBtn,
     removeUserBtn,
+    linkSetings,
     chatMassages: [],
     chatList: [],
   },

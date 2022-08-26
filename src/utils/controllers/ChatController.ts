@@ -1,10 +1,20 @@
 import { HTTPTransport } from '../HTTPTransport';
 import { Button } from '../../components/button/button';
 import Store from '../Store/Store';
+import { ChatListAPI } from '../api/chatAPI/ChatListAPI';
+import { createChatList } from '../api/createChatList';
+import { ChatUserAPI } from '../api/chatAPI/ChatUserAPI';
 
 const http = new HTTPTransport();
 const store = new Store();
+const state = store.getState();
+
 export default class ChatController {
+  constructor() {
+    this.chatListAPI = new ChatListAPI();
+    this.chatUserAPI = new ChatUserAPI();
+  }
+
   getChatMessages(idChat) {
     http.post(`https://ya-praktikum.tech/api/v2/chats/token/${idChat}`, { data: {} })
       .then((token) => token.response.token)
@@ -14,13 +24,6 @@ export default class ChatController {
         socket.addEventListener('open', () => {
           store.set('chatPage.token', t);
           store.set('chatPage.idChat', idChat);
-          // setInterval(()=> {
-          //     socket.send(JSON.stringify({
-          //     type: 'ping',
-          //     }));
-          //
-          // console.log('wss:// ping');
-          // }, 30000)
           socket.send(JSON.stringify({
             content: '0',
             type: 'get old',
@@ -71,21 +74,10 @@ export default class ChatController {
   }
 
   getChats() {
-    const http = new HTTPTransport();
-    http.get('https://ya-praktikum.tech/api/v2/chats')
+    this.chatListAPI.request()
       .then((res) => {
-        const chatList = JSON.parse(res.response).map((item) => new Button('button', {
-          textButton: item.title,
-          attr: {
-            class: 'add-chat-btn',
-            type: '',
-          },
-          events: {
-            click: () => this.getChatMessages(item.id),
-          },
-        }));
+        const chatList = createChatList(res);
         store.set('chatPage.children.chatList', chatList);
-        // return store.getState();
       });
   }
 
@@ -93,26 +85,17 @@ export default class ChatController {
     const modal = document.querySelector('.add-chat-modal');
     modal.style.display = 'block';
     const addChat = document.querySelector('.add-chat');
-    const btnCancel = document.querySelector('.btn-cancel');
+    const btnCancel = document.querySelector('.btn-cancel-chat');
     const titleChat = document.querySelector('.title-chat');
     addChat.addEventListener('click', () => {
       if (!titleChat.value) return;
-      const http = new HTTPTransport();
-      http.post('https://ya-praktikum.tech/api/v2/chats', {
-        headers: {
-          'content-type': 'application/json',
-        },
-        data: {
-          title: titleChat.value,
-        },
-      })
+      this.chatListAPI.create(titleChat.value)
         .then(() => {
           this.getChats();
         });
       modal.style.display = 'none';
     });
     btnCancel.addEventListener('click', () => {
-      console.log('close');
       modal.style.display = 'none';
     });
   }
@@ -120,16 +103,14 @@ export default class ChatController {
   removeChat() {
     const state = store.getState();
     const chatId = state.chatPage.idChat;
-    if (!state.chatPage.idChat) console.log('Выберите чат, который хотите удалить');
-    http.delete('https://ya-praktikum.tech/api/v2/chats', {
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: {
-        chatId,
-      },
-    })
+    if (!chatId) return;
+    this.chatListAPI.delete(chatId)
       .then(() => this.getChats());
+  }
+
+  getUsers(idChat) {
+    return this.chatUserAPI.request(idChat)
+
   }
 
   addUser() {
@@ -138,39 +119,20 @@ export default class ChatController {
     const input = document.querySelector('.sear-input');
     const btnCancel = document.querySelector('.btn-cancel');
     input.addEventListener('input', (e) => {
-      const http = new HTTPTransport();
-      const state = store.getState()
-      http.post('https://ya-praktikum.tech/api/v2/user/search', {
-        headers: {
-          'content-type': 'application/json',
-        },
-        data: {
-          login: e.target.value,
-        },
-      })
+      this.chatUserAPI.create(e.target.value)
         .then((users) => {
-          const user = users.response.map((el) => `<div id= ${el.id}>${el.login}</div>`);
+          const user = users.response.map((el) => `<div class="wrapper-user-chat"><div id= ${el.id}>${el.login}</div> <div>+</div></div>`);
           const div = document.querySelector('.sear-res');
           div.innerHTML = user.join('');
           div.addEventListener('click', (e) => {
             e.stopImmediatePropagation();
+            e.target.classList.add('selected');
             const userId = (e.target.id).split();
-            const chatId = state.chatPage.idChat
-            console.log(userId, chatId)
-            if(!userId || !chatId) return
-            http.put('https://ya-praktikum.tech/api/v2/chats/users', {
-              headers: {
-                'content-type': 'application/json',
-              },
-              data: {
-                users: userId,
-                chatId: chatId,
-              },
-            });
+            const chatId = state.chatPage.idChat;
+            if (!userId || !chatId) return;
+            this.chatUserAPI.update(userId, chatId);
           });
         });
-      //
-      // modal.style.display = 'none';
     });
     btnCancel.addEventListener('click', () => {
       modal.style.display = 'none';
@@ -178,29 +140,24 @@ export default class ChatController {
   }
 
   removeUser() {
-    const idChat = store.getState().chatPage.idChat
-
-    console.log(idChat)
+    const { idChat } = state.chatPage;
     const modal = document.querySelector('.sear-form');
     modal.style.display = 'block';
     const div = document.querySelector('.sear-res');
-    http.get(`https://ya-praktikum.tech/api/v2/chats/${idChat}/users`)
-        .then(res =>{
-          const users = JSON.parse(res.response)
-          const userHtml = users.map((el) => `<div id= ${el.id}>${el.login}</div>`)
-          div.innerHTML = userHtml
-          div.addEventListener('click', (e) => {
-            const userId = (e.target.id).split();
-            http.delete(`https://ya-praktikum.tech/api/v2/chats/users`, {
-              headers: {
-                'content-type': 'application/json',
-              },
-              data: {
-                users: userId,
-                chatId: idChat,
-              },
-            })
-          })
-        })
+    const btnCancel = document.querySelector('.btn-cancel');
+    this.getUsers(idChat)
+      .then((res) => {
+        const users = JSON.parse(res.response);
+        const userHtml = users.map((el) => `<div id= ${el.id}>${el.login}</div>`);
+        div.innerHTML = userHtml;
+        div.addEventListener('click', (e) => {
+          const userId = (e.target.id).split();
+          e.target.classList.add('selected');
+          this.chatUserAPI.delete(userId, idChat)
+        });
+      });
+    btnCancel.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
   }
 }

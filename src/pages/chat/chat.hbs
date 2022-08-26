@@ -1,10 +1,13 @@
 <div class="wrapper-chat">
     <div class="sear-form">
         <div class="content-sear">
-            <input class="sear-input" type="text">
-            <button class="sear-btn">OK</button>
-            <button class="btn-cancel">Отменить</button>
-            <div class="sear-res"></div>
+            <div class="setings-search">
+                <input class="sear-input" type="text">
+                <button class="btn-cancel">Отменить</button>
+            </div>
+            <div class="sear-res">
+                {{{resultSearch}}}
+            </div>
         </div>
     </div>
     <div class = 'add-chat-modal'>
@@ -12,54 +15,29 @@
             <div class="content-modal">
                 <input class= 'title-chat' type="text" placeholder="Название чата">
                 <button class="add-chat">OK</button>
-                <button class="btn-cancel">Отменить</button>
+                <button class="btn-cancel-chat">Отменить</button>
+
             </div>
         </div>
     </div>
     <div class="chat-list">
         <div class="chat-list__settings">
-            <img class="chat-list__img-add" src="./img/add.png" alt="добавить чат">
             {{{addChatBtn}}}
             {{{removeChatBtn}}}
-            <a href="./profile.html"> Профиль   ></a>
-        </div>
-        <div class="search-form">
-            <input type="text" class="search-form__txt" placeholder="Поиск">
-            <button class="search-form__btn">
-                <img src="./img/search_chat.svg" alt="поиск" class="search-form__image">
-            </button>
+            {{{linkSetings}}}
         </div>
         <div class="chat-list__wrapper">
             <ul class="chat-list__users">
             {{#each chatList}}
                 {{{this}}}
             {{/each}}
-<!--                <li class="chat-list__user">-->
-<!--                    <div class="chat-list__img-user">-->
-<!--                        <img src="./img/ava_chat.png" alt="аватар чата">-->
-<!--                    </div>-->
-<!--                    <div class="chat-list__name">-->
-<!--                        <p class="chat-list__name-sign">Вадим</p>-->
-<!--                        <p class="chat-list__name-text"><b>Вы</b>Круто</p>-->
-<!--                    </div>-->
-<!--                    <div class="chat-list__option">-->
-<!--                        <time class="chat-list__time">10:25</time>-->
-<!--                    </div>-->
-<!--                </li>-->
             </ul>
         </div>
     </div>
     <div class="chat-messages">
         <div class="chat-messages__wrapper">
             <div class="chat-messages__caption">
-                <div class="chat-messages__img-chat">
-                    <img src="./img/ava_chat.png" alt="аватар чата" class="chat-messages__ava-chat">
-                </div>
-                <div class="chat-messages__sign">
-                    <p class="sign">Вадим</p>
-                </div>
                 <div class="chat-messages__menu">
-                    <img src="./img/chat_menu.png" alt="меню чата" class="chat-messages__menu-chat">
                 {{{addUserBtn}}}
                 {{{removeUserBtn}}}
                 </div>
@@ -68,13 +46,6 @@
                 {{#each chatMassages}}
                     {{{this}}}
                 {{/each}}
-<!--                <div class="chat-messages__date">1 августа</div>-->
-<!--                <div class="chat-messages__response">-->
-<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores beatae commodi, dolores doloribus eveniet fugiat iste iure labore laboriosam magnam minus molestiae natus necessitatibus, nisi non officia optio perspiciatis praesentium provident quaerat quos similique, voluptatibus.-->
-<!--                </div>-->
-<!--                <div class="chat-messages__my-text">-->
-<!--                    Круто-->
-<!--                </div>-->
             </div>
             <div class="chat-messages__wrapper-form">
                 <form action="#" method="post" class="chat-messages__form form-chat">

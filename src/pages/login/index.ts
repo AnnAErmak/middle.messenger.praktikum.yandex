@@ -1,8 +1,6 @@
 import './login.scss';
 import '../../globalStyles/globalStyles.scss';
-import  LoginPage  from './login';
-import { renderTemplate } from '../../utils/renderTemplate';
-import { Header } from '../../components/header/header';
+import  {LoginPage}  from './login';
 import { Button } from '../../components/button/button';
 import { Form } from '../../components/form/form';
 import { Input } from '../../components/input/input';
@@ -11,15 +9,8 @@ import {
   validatorForm, isValidField, addError, removeError,
 } from '../../utils/validator';
 import { UserController } from '../../utils/controllers/UserController';
-import { HTTPTransport } from '../../utils/HTTPTransport';
 import { Link } from '../../components/link/link';
 import {connect} from "../../utils/Store/connect";
-
-// const header = new Header('header', {
-//   attr: {
-//     class: 'container header',
-//   },
-// });
 
 const button = new Button('button', {
   textButton: 'Войти',
@@ -38,6 +29,7 @@ const link = new Link('a', {
 });
 
 const formLogin = new Form('form', {
+  children: {
   labelLogin: new Label('label', {
     labelName: 'Логин',
     attr: {
@@ -76,6 +68,7 @@ const formLogin = new Form('form', {
   }),
   button,
   link,
+},
   formName: 'login',
   hrefForm: './signin.html',
   linkName: 'Регистрация',
@@ -89,82 +82,18 @@ const formLogin = new Form('form', {
       e.preventDefault();
       const loginController = new UserController();
       loginController.login(e.target);
-      // UserController.login(e.target)
-      // const userAPIInstance = new HTTPTransport();
-      // userAPIInstance.get('https://ya-praktikum.tech/api/v2/auth/user').then(data => console.log(data))
-      // let xhr = new XMLHttpRequest();
-      // xhr.open('GET', 'https://ya-praktikum.tech/api/v2/auth/user')
-      // xhr.responseType = 'json';
-      // //xhr.setRequestHeader('Content-Type', 'application/json');
-      // xhr.withCredentials = true;
-      // xhr.send()
-      // xhr.onload = () => console.log(xhr)
-
-      // fetch('https://ya-praktikum.tech/api/v2/auth/signin', {
-      //   method: 'POST',
-      //   credentials: 'include', // Нужно подставлять куки
-      //   mode: 'cors', // Работаем с CORS
-      //   headers: {
-      //     'content-type': 'application/json', // Данные отправляем в формате JSON
-      //   },
-      //   body: JSON.stringify({
-      //     login: 'ERM2',
-      //     password: '123SSFFdfdf2',
-      //   }),
-      // })
-      //   .then((response) => response.text()) // Можно вытащить через .json()
-      //   .then((data) => {
-      //     console.log(data);
-      //     return data;
-      //   })
-      // .then((data) => {
-      //   fetch('https://ya-praktikum.tech/api/v2/auth/user', { // Получаем подробную информацию о пользователе и проверяем, что куки проставились
-      //     method: 'GET',
-      //     mode: 'cors',
-      //     credentials: 'include',
-      //   })
-      //     .then((r) => r.json())
-      //     .then((data) => {
-      //       console.log('user', data);
-      //     });
-      // });
-
-      // const resp = userAPIInstance.post(
-      //   'https://ya-praktikum.tech/api/v2/auth/signin',
-      //   {
-      //     headers: {
-      //       'content-type': 'application/json',
-      //     },
-      //     credentials: 'include',
-      //     data: {
-      //       login: 'ERM2',
-      //       password: '123SSFFdfdf2',
-      //     },
-      //   },
-      // )
-      //   .then((data) => data.responseText)
-      //   .then(() => {
-      //     fetch('https://ya-praktikum.tech/api/v2/auth/user')
-      //       .then((data) => console.log(data));
-      //   })
-      // ;
-
-      // setTimeout(() => {
-      //   const resp = fetch('https://ya-praktikum.tech/api/v2/auth/user')
-      //     .then((data) => console.log(data));
-      // }, 2000);
     },
   },
   titleForm: 'Вход',
 });
 
 const loginPage = new LoginPage('div', {
-  formLogin,
-  //header,
+  children: {
+    formLogin,
+  },
   attr: {
     class: 'container',
   },
 });
 
-//renderTemplate('#root', loginPage);
 export { loginPage };

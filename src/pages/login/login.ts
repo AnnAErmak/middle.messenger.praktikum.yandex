@@ -4,7 +4,7 @@ import Block from '../../utils/Block';
 import { LoginPageProps } from './types';
 import {connect} from "../../utils/Store/connect";
 
- class LoginPage extends Block<LoginPageProps> {
+export class LoginPage extends Block<LoginPageProps> {
   render() {
     return this.compile(loginTemplate, this._props);
   }

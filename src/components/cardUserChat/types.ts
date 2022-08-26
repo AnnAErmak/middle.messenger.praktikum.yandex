@@ -1,10 +1,10 @@
-export type LinkProps = {
-    linkName: string;
+
+export type cartUserChat = {
+    userLogin: string,
     attr: {
         class: string;
-        href: string;
-    }
+    },
     events: {
         click: (e: Event) => void;
     },
-};
+}

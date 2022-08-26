@@ -11,7 +11,7 @@ export default function connect(Component, mapStateToProps) {
       mapStateToProps()
       store.on(StoreEvents.Updated, () => {
         //console.log(store.getState())
-        this.setProps(store.getState().chatPage)
+        this.setProps(store.getState().userInfo)
       });
 // ...mapStateToProps(store.getState())
     }

@@ -12,11 +12,6 @@ import { Input } from '../../components/input/input';
 import UserSigninController from "../../utils/controllers/UserController";
 import {Link} from "../../components/link/link";
 
-const header = new Header('header', {
-  attr: {
-    class: 'container header',
-  },
-});
 
 const button = new Button('button', {
   textButton: 'Зарегистрироваться',
@@ -35,6 +30,7 @@ const link = new Link('a', {
 });
 
 const formRegistration = new Form('form', {
+  children: {
   labelEmail: new Label('label', {
     labelName: 'Почта',
     attr: {
@@ -163,6 +159,7 @@ const formRegistration = new Form('form', {
   }),
   button,
   link,
+},
   formName: 'signin',
   hrefForm: './login.html',
   linkName: 'Войти',
@@ -181,13 +178,13 @@ const formRegistration = new Form('form', {
 });
 
 const signinPage = new Signin('div', {
-  formRegistration,
-  header,
+  children:{
+    formRegistration,
+  },
   attr: {
     class: 'container',
   },
 
 });
 
-renderTemplate('#root', signinPage);
  export {signinPage}

@@ -13,17 +13,7 @@ export default class Store extends EventBus {
   constructor() {
     if (Store._instance) return Store._instance;
     super();
-    this.state = {
-      chatPage: {
-        children: {
-          chatList: [],
-          chatMassages: [],
-        },
-      },
-      userSeting:{
-        avatar:''
-      },
-    };
+    this.state = { };
     Store._instance = this;
     this.on(StoreEvents.Updated, () => {})//console.log(this.getState()));
   }
