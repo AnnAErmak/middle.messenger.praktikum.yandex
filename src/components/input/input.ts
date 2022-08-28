@@ -1,17 +1,20 @@
 import './input.scss';
 import Block from '../../utils/Block';
 import { InputProps } from './types';
-import connect2 from "../../utils/Store/connect2";
-import Store from "../../utils/Store/Store";
+import connect from '../../utils/Store/connect';
+import connect2 from '../../utils/Store/connect2';
 
-const store = new Store()
-const state = store.getState()
-
-class Input extends Block<InputProps> {
+export default class Input extends Block<InputProps> {
   render() {
     return this.compile(() => '', this._props);
   }
 }
-const withUserInfo = connect2(state => state.userInfo);
 
-export default withUserInfo(Input)
+ connect(Input, (state) => {
+  const dataInput = state.userInfo?.phone;
+  return {
+    attr: {
+      ...dataInput,
+    },
+  };
+});

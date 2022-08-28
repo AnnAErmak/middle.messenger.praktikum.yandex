@@ -2,18 +2,29 @@ import './profile.scss';
 import '../../globalStyles/globalStyles.scss';
 import { Header } from '../../components/header/header';
 import { Button } from '../../components/button/button';
-import { Form } from '../../components/form/form';
+import Form from '../../components/form/form';
 import Profile from './profile';
 import Input from '../../components/input/input';
 import { Label } from '../../components/label/label';
-import {addError, isValidField, removeError, validatorForm} from "../../utils/validator";
+import {
+  addError, isValidField, removeError, validatorForm,
+} from '../../utils/validator';
+import { UserController } from '../../utils/controllers/UserController';
+import Store from '../../utils/Store/Store';
+import { ChangeUserProfileController } from '../../utils/controllers/userControllers/ChangeUserProfileController';
 
+const userController = new UserController();
+const userProfileController = new ChangeUserProfileController();
+userController.getUserInfo();
+userProfileController.getUserAvatar();
+
+const store = new Store();
 
 const buttonData = new Button('button', {
   textButton: 'Изменить данные',
   attr: {
     class: 'button-change-data',
-    type: 'submit',
+    type: '',
   },
 
 });
@@ -21,9 +32,41 @@ const buttonPass = new Button('button', {
   textButton: 'Изменить пароль',
   attr: {
     class: 'button-change-pass',
-    type: '',
+    type: 'button',
   },
-
+  events: {
+    click: () => {
+      const hidden = document.querySelectorAll('.hidden');
+      hidden.forEach((el) => el.classList.remove('hidden'));
+    },
+  },
+});
+const changePasswordBtn = new Button('button', {
+  textButton: 'Применить',
+  attr: {
+    class: 'button-change-pass hidden',
+    type: 'button',
+  },
+  events: {
+    click: (e) => {
+      e.stopImmediatePropagation();
+      const oldPassword = document.querySelector('.password');
+      const newPassword = document.querySelector('.newPassword');
+      userProfileController.changePassword({ oldPassword, newPassword });
+    },
+  },
+});
+const logoutBtn = new Button('button', {
+  textButton: 'LogOut',
+  attr: {
+    class: 'button-LogOut',
+    type: 'button',
+  },
+  events: {
+    click: (e) => {
+      console.log('LogOut');
+    },
+  },
 });
 
 const formProfile = new Form('form', {
@@ -44,7 +87,7 @@ const formProfile = new Form('form', {
         name: 'email',
         placeholder: 'почта',
         class: 'label-input__input',
-        value: 'batman89@arkham.ru',
+        value: 'test@mail.ru', // state?.email ??
       },
     }),
     labelLogin: new Label('label', {
@@ -142,8 +185,46 @@ const formProfile = new Form('form', {
         value: '+0682713737',
       },
     }),
+    labelPassword: new Label('label', {
+      labelName: 'Старый пароль',
+      attr: {
+        class: 'label-input hidden',
+      },
+    }),
+    inputPassword: new Input('input', {
+      events: {
+        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      },
+      attr: {
+        type: 'password',
+        name: 'password',
+        placeholder: 'пароль',
+        class: 'label-input__input password hidden',
+      },
+    }),
+    labelNewPassword: new Label('label', {
+      labelName: 'Новый пароль',
+      attr: {
+        class: 'label-input hidden',
+      },
+    }),
+    inputNewPassword: new Input('input', {
+      events: {
+        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+      },
+      attr: {
+        type: 'password',
+        name: 'newPassword',
+        placeholder: 'пароль',
+        class: 'label-input__input newPassword hidden',
+      },
+    }),
     button: buttonData,
     buttonFixPass: buttonPass,
+    changePasswordBtn,
+
   },
   formName: 'profile',
   hrefForm: './chat.html',
@@ -156,7 +237,7 @@ const formProfile = new Form('form', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      console.log(validatorForm(e.target));
+      userProfileController.putUserProfile(e.target);
     },
   },
 
@@ -164,14 +245,24 @@ const formProfile = new Form('form', {
 
 const profilePage = new Profile('div', {
   children: {
-    formProfile
+    formProfile,
+    logoutBtn,
   },
+  pathAva: '',
   attr: {
     class: 'container',
   },
-
+  events: {
+    submit: (e) => {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      userProfileController.changeAvatar(form);
+    },
+  },
 });
 
-//renderTemplate('#root', profilePage);
+Window.p = profilePage;
+Window.s = new Store();
+Window.f = formProfile;
 
-export {profilePage}
+export { profilePage };

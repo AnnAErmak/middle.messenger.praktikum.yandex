@@ -2,8 +2,8 @@ import './login.scss';
 import '../../globalStyles/globalStyles.scss';
 import  {LoginPage}  from './login';
 import { Button } from '../../components/button/button';
-import { Form } from '../../components/form/form';
-import { Input } from '../../components/input/input';
+import  Form  from '../../components/form/form';
+import  Input  from '../../components/input/input';
 import { Label } from '../../components/label/label';
 import {
   validatorForm, isValidField, addError, removeError,

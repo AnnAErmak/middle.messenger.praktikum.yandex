@@ -46,7 +46,12 @@ class HTTPTransport {
         return;
       }
       const xhr = new XMLHttpRequest();
-      xhr.open(method, `${url}${queryStringify(data)}`);
+      if(data instanceof FormData){
+        xhr.open(method, `${url}`);
+      }else{
+        xhr.open(method, `${url}${queryStringify(data)}`);
+      }
+
       xhr.withCredentials = true;
       xhr.responseType = 'json';
       Object.keys(headers).forEach((key) => {
@@ -60,7 +65,12 @@ class HTTPTransport {
       xhr.onerror = reject;
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
-      xhr.send(JSON.stringify(data));
+      if(data instanceof FormData){
+        xhr.send(data);
+      }else{
+        xhr.send(JSON.stringify(data));
+      }
+
     });
   }
 }

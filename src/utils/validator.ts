@@ -11,6 +11,7 @@ enum FIELDSNAMES {
   PHONE = 'phone',
   MESSAGE = 'message',
   PASSWORD = 'password',
+  NEWPASSWORD = 'newPassword',
   PASSWORDAGAIN = 'passwordAgain',
   FIRST_NAME = 'first_name',
   SECOND_NAME = 'second_name',
@@ -50,7 +51,8 @@ const isValidField = (nameElement: string, valueElement: string) => {
       return REGEXPMESSAGE.test(valueElement);
     }
     case FIELDSNAMES.PASSWORD:
-    case FIELDSNAMES.PASSWORDAGAIN: {
+    case FIELDSNAMES.PASSWORDAGAIN:
+    case FIELDSNAMES.NEWPASSWORD: {
       return REGEXPPASSWORD.test(valueElement);
     }
     case FIELDSNAMES.FIRST_NAME:
