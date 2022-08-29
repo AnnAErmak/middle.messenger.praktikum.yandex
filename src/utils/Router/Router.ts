@@ -1,7 +1,11 @@
 import {Route} from "./Route";
 import {AuthController} from "../controllers/userControllers/AuthController";
+import ChatController from "../controllers/ChatController";
+import Store from "../Store/Store";
 
 const authController = new AuthController()
+const chatController = new ChatController()
+const store = new Store()
 
 export class Router {
   constructor(rootQuery) {
@@ -26,9 +30,12 @@ export class Router {
       this._onRoute(event.currentTarget.location.pathname);
     });
     authController.getAuthUser().then(res => {
-      if (res.status === 200) {
+      if (res.status === 200 && window.location.pathname !== '/') {
+        this._onRoute(window.location.pathname);
+      } else if (res.status === 200){
+       chatController.getChats()
         this.go('/messenger');
-      } else {
+      }else{
         this._onRoute(window.location.pathname);
       }
     })

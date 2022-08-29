@@ -74,7 +74,7 @@ export default class ChatController {
   }
 
   getChats() {
-    this.chatListAPI.request()
+    return this.chatListAPI.request()
       .then((res) => {
         const chatList = createChatList(res);
         store.set('chatPage.children.chatList', chatList);
