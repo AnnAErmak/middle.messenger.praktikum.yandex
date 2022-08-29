@@ -1,18 +1,12 @@
 import './chat.scss';
 import '../../globalStyles/globalStyles.scss';
 import ChatPage from './chat';
-import { renderTemplate } from '../../utils/renderTemplate';
-import { Header } from '../../components/header/header';
 import { validatorForm } from '../../utils/validator';
-import { HTTPTransport } from '../../utils/HTTPTransport';
 import { Button } from '../../components/button/button';
-import connect from '../../utils/Store/connect';
-import Block from '../../utils/Block';
-import { ChatPageProps } from './types';
-import chatTemplate from './chat.hbs';
 import ChatController from '../../utils/controllers/ChatController';
 import { Link } from '../../components/link/link';
 import {Router} from "../../utils/Router/Router";
+import Store from "../../utils/Store/Store";
 
 const chatController = new ChatController();
 
@@ -75,11 +69,11 @@ const linkSetings = new Link('a', {
   },
   click: (e) => {
     e.preventDefault()
-    Router.go('/setings')
+    Router.go('/settings')
   },
 
 });
-export const chatPage = new ChatPage('div', {
+const chatPage = new ChatPage('div', {
   children: {
     addChatBtn,
     removeChatBtn,
@@ -102,49 +96,5 @@ export const chatPage = new ChatPage('div', {
   },
 });
 
-/// /////Открываем страницу с чатами
-// const http = new HTTPTransport();
-// http.get('https://ya-praktikum.tech/api/v2/chats')
-//   .then((res) => renderChatLists(JSON.parse(res.responseText)));
-//
-// function renderChatLists(list) {
-//   const chatList = list.map((chat) => `<li id =${chat.id} class="item-chat">${chat.title}</li>`);
-//   const chl = document.querySelector('.chat-list__users');
-//   chl.innerHTML = chatList.join('');
-//
-//   chl.addEventListener('click', (e) => {
-//     if (e.target.tagName === 'LI') {
-//       http.post(`https://ya-praktikum.tech/api/v2/chats/token/${e.target.id}`, { data: {} })
-//         .then((token) => token.response.token)
-//         .then((t) => {
-//           const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/72519/${e.target.id}/${t}`);
-//           const chatObj = {
-//             id: e.target.id,
-//             token: t,
-//           };
-//           localStorage.setItem('chatObj', JSON.stringify(chatObj));
-//           socket.addEventListener('open', () => {
-//             socket.send(JSON.stringify({
-//               content: '0',
-//               type: 'get old',
-//             }));
-//           });
-//           socket.addEventListener('message', (event) => {
-//             const messages = JSON.parse(event.data).map((item) => `<div><h3>${item.user_id}</h3><div>${item.content}</div></div>`);
-//             const chat = document.querySelector('.chat-messages__messages');
-//             chat.innerHTML = messages.join('');
-//           });
-//         });
-//     }
-//   });
-// }
-
-/// ////////////Поиск пользователей//////////
-
-// const input = document.querySelector('.search-form__txt')
-// console.log(input)
-// input.addEventListener('change', (e) => {
-//   console.log('change')
-// })
-
-// export { chatPage };
+//Window.s = new Store().getState()
+export {chatPage}

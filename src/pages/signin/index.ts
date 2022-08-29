@@ -2,13 +2,13 @@ import './signin.scss';
 import { Signin } from './signin';
 import { renderTemplate } from '../../utils/renderTemplate';
 import { Header } from '../../components/header/header';
-import { Form } from '../../components/form/form';
+import  Form  from '../../components/form/form';
 import { Button } from '../../components/button/button';
 import {
   addError, isValidField, removeError, validatorForm,
 } from '../../utils/validator';
 import { Label } from '../../components/label/label';
-import { Input } from '../../components/input/input';
+import  Input  from '../../components/input/input';
 import UserSigninController from "../../utils/controllers/UserController";
 import {Link} from "../../components/link/link";
 

@@ -1,48 +1,37 @@
 import { HTTPTransport } from '../../HTTPTransport';
 import { BaseAPI } from '../BaseAPI';
+import { host } from '../../../constants';
 
-const userAPIInstance = new HTTPTransport();
+const http = new HTTPTransport();
 
-export class UserAPI extends BaseAPI {
-  create(_data) {
-    console.log(_data)
-    return userAPIInstance.post('https://ya-praktikum.tech/api/v2/auth/signin', {
+export class AuthUserAPI extends BaseAPI {
+  create({ login, password }) {
+    return http.post(`${host}auth/signin`, {
       headers: {
         'content-type': 'application/json',
       },
-      data: {login: 'ERM2', password: '123SSFFdfdf2'},
-    });
-
-    // fetch('https://ya-praktikum.tech/api/v2/auth/signin', {
-    //   method: 'POST',
-    //   credentials: 'include', // Нужно подставлять куки
-    //   mode: 'cors', // Работаем с CORS
-    //   headers: {
-    //     'content-type': 'application/json', // Данные отправляем в формате JSON
-    //   },
-    //   body: JSON.stringify({
-    //     login: 'ERM2',
-    //     password: '123SSFFdfdf2', // Грустный и слабый пароль, можно вот так: oPKzos*1X$uKz$ta
-    //   }),
-    // })
-    //   .then((response) => response.text()) // Можно вытащить через .json()
-    //   .then((data) => {
-    //     console.log(data);
-    //     return data;
-    //   });
+      data: { login, password },
+    })
+        .then(res => res)
+        .catch(err => console.log(err))
   }
 
-  request() {
-    userAPIInstance.get('ya-praktikum.tech/api/v2/auth/signin', {
-      data: {
-        login: 'ERM',
-        password: '123SSFFdfdf',
+  request({ login, password }) {
+    http.get(`${host}auth/signin`, {
+      headers: {
+        'content-type': 'application/json',
       },
+      data: { login, password },
     })
       .then((res) => console.log(res));
   }
 
-  update() { console.log('updeate'); }
-
-  delete() { console.log('delete'); }
+  delete() {
+    http.post(`${host}auth/logout`, {
+      headers: {
+        'content-type': 'application/json',
+      },
+      data: {},
+    });
+  }
 }

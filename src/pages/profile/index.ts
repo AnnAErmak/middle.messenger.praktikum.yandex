@@ -64,7 +64,8 @@ const logoutBtn = new Button('button', {
   },
   events: {
     click: (e) => {
-      console.log('LogOut');
+      userController.userLogOut()
+
     },
   },
 });

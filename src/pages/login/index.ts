@@ -2,15 +2,15 @@ import './login.scss';
 import '../../globalStyles/globalStyles.scss';
 import  {LoginPage}  from './login';
 import { Button } from '../../components/button/button';
-import  Form  from '../../components/form/form';
+import FormLogin from "../../components/formLogin/formLogin";
 import  Input  from '../../components/input/input';
 import { Label } from '../../components/label/label';
 import {
   validatorForm, isValidField, addError, removeError,
 } from '../../utils/validator';
-import { UserController } from '../../utils/controllers/UserController';
+import {AuthController} from '../../utils/controllers/userControllers/AuthController'
 import { Link } from '../../components/link/link';
-import {connect} from "../../utils/Store/connect";
+
 
 const button = new Button('button', {
   textButton: 'Войти',
@@ -28,7 +28,7 @@ const link = new Link('a', {
   },
 });
 
-const formLogin = new Form('form', {
+const formLogin = new FormLogin('form', {
   children: {
   labelLogin: new Label('label', {
     labelName: 'Логин',
@@ -80,8 +80,8 @@ const formLogin = new Form('form', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      const loginController = new UserController();
-      loginController.login(e.target);
+      const authController = new AuthController();
+      authController.login(e.target);
     },
   },
   titleForm: 'Вход',

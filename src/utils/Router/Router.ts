@@ -1,4 +1,8 @@
 import {Route} from "./Route";
+import {AuthController} from "../controllers/userControllers/AuthController";
+
+const authController = new AuthController()
+
 export class Router {
   constructor(rootQuery) {
     if (Router.__instance) {
@@ -21,9 +25,15 @@ export class Router {
     window.onpopstate = ((event) => {
       this._onRoute(event.currentTarget.location.pathname);
     });
-
-    this._onRoute(window.location.pathname);
+    authController.getAuthUser().then(res => {
+      if (res.status === 200) {
+        this.go('/messenger');
+      } else {
+        this._onRoute(window.location.pathname);
+      }
+    })
   }
+
 
   _onRoute(pathname) {
     const route = this.getRoute(pathname);

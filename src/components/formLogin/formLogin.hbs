@@ -1,0 +1,19 @@
+<h2 class="form-{{formName}}__caption">{{titleForm}}</h2>
+<fieldset class="form-{{formName}}__inputs">
+    {{{labelLogin}}}
+        {{{inputLogin}}}
+    <div data-name = 'login' class="error-message">
+        Может состоять от 3 до 20 символов, латиница, может содержать
+        цифры, но не состоять из них, без пробелов,
+        без спецсимволов (допустимы дефис и нижнее подчёркивание)
+    </div>
+    {{{labelPassword}}}
+        {{{inputPassword}}}
+    <div data-name = 'password' class="error-message">
+        Может быть от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра.
+    </div>
+</fieldset>
+<fieldset class="form-{{formName}}__buttons">
+        {{{button}}}
+        {{{link}}}
+</fieldset>
