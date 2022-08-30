@@ -5,7 +5,7 @@ import { validatorForm } from '../../utils/validator';
 import { Button } from '../../components/button/button';
 import ChatController from '../../utils/controllers/ChatController';
 import { Link } from '../../components/link/link';
-import {Router} from "../../utils/Router/Router";
+import Router from "../../utils/Router/Router";
 import Store from "../../utils/Store/Store";
 
 const chatController = new ChatController();
@@ -69,7 +69,7 @@ const linkSetings = new Link('a', {
   },
   click: (e) => {
     e.preventDefault()
-    Router.go('/settings')
+    new Router().go('/settings')
   },
 
 });

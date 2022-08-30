@@ -1,22 +1,17 @@
-import {Route} from "./Route";
-import {AuthController} from "../controllers/userControllers/AuthController";
-import ChatController from "../controllers/ChatController";
-import Store from "../Store/Store";
+import Route from './Route';
 
-const authController = new AuthController()
-const chatController = new ChatController()
-const store = new Store()
-
-export class Router {
+export default class Router {
+  static _instance;
   constructor(rootQuery) {
-    if (Router.__instance) {
-      return Router.__instance;
-    }
+    console.log(Router._instance)
+    if (Router._instance)
+      return Router._instance;
+console.log(Router._instance)
     this.routes = [];
     this.history = window.history;
-    this._currentRoute = null;
-    this._rootQuery = rootQuery;
-    Router.__instance = this;
+    this.currentRoute = null;
+    this.rootQuery = rootQuery;
+    Router._instance = this;
   }
 
   use(pathname, block) {
@@ -26,47 +21,36 @@ export class Router {
   }
 
   start() {
-    window.onpopstate = ((event) => {
-      this._onRoute(event.currentTarget.location.pathname);
+    window.onpopstate = (e => {
+      this._onRoute(window.location.pathname)
     });
-    authController.getAuthUser().then(res => {
-      if (res.status === 200 && window.location.pathname !== '/') {
-        this._onRoute(window.location.pathname);
-      } else if (res.status === 200){
-       chatController.getChats()
-        this.go('/messenger');
-      }else{
-        this._onRoute(window.location.pathname);
-      }
-    })
+    this._onRoute(window.location.pathname);
   }
 
-
-  _onRoute(pathname) {
-    const route = this.getRoute(pathname);
-    if (!route) {
-      return;
-    }
-
-    if (this._currentRoute && this._currentRoute !== route) {
-      this._currentRoute.leave();
-    }
-
-    this._currentRoute = route;
-    route.render(route, pathname);
-  }
-
-  go(pathname) {
-    this.history.pushState({}, '', pathname);
-    this._onRoute(pathname);
+  go(path) {
+    this.history.pushState({}, '', path);
+    this._onRoute(path);
   }
 
   back() {
-    this.history.back();
+    window.history.back();
   }
 
   forward() {
-    this.history.forward();
+    window.history.forward();
+  }
+
+  _onRoute(path) {
+    const route = this.getRoute(path);
+
+    if(!route)
+      return;
+
+    if(this.currentRoute && this.currentRoute !== route)
+      this.currentRoute.leave();
+
+    this.currentRoute = route;
+    route.render();
   }
 
   getRoute(pathname) {

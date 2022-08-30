@@ -13,12 +13,12 @@ import { UserController } from '../../utils/controllers/UserController';
 import Store from '../../utils/Store/Store';
 import { ChangeUserProfileController } from '../../utils/controllers/userControllers/ChangeUserProfileController';
 
-const userController = new UserController();
-const userProfileController = new ChangeUserProfileController();
-userController.getUserInfo();
-userProfileController.getUserAvatar();
-
-const store = new Store();
+// const userController = new UserController();
+ const userProfileController = new ChangeUserProfileController();
+// userController.getUserInfo();
+// userProfileController.getUserAvatar();
+//
+// const store = new Store();
 
 const buttonData = new Button('button', {
   textButton: 'Изменить данные',

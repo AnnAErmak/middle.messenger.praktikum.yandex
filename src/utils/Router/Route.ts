@@ -1,6 +1,6 @@
 import { renderTemplate } from '../renderTemplate';
 
-export class Route {
+export default class Route {
   constructor(pathname, view, props) {
     this._pathname = pathname;
     this._block = view;
@@ -10,7 +10,7 @@ export class Route {
 
   navigate(pathname) {
     if (this.match(pathname)) {
-      this._pathname = pathname;
+      //this._pathname = pathname;
       this.render();
     }
   }
@@ -28,7 +28,7 @@ export class Route {
   render() {
     if (!this._blockFlag) {
       this._blockFlag = true;
-      renderTemplate(this._props.rootQuery, this._block);
+      renderTemplate('#root', this._block);
       return;
     }
 

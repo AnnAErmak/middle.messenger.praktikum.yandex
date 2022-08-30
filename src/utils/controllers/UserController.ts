@@ -95,6 +95,7 @@ class UserController {
           }),
 
         });
+        store.set('chatPage.userId', res.id )
       });
   }
 

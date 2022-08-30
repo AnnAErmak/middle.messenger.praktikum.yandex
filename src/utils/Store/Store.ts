@@ -15,7 +15,7 @@ export default class Store extends EventBus {
     super();
     this.state = { };
     Store._instance = this;
-    this.on(StoreEvents.Updated, () => {})//console.log(this.getState()));
+    //this.on(StoreEvents.Updated, () => {})//console.log(this.getState()));
   }
 
   public getState() {
