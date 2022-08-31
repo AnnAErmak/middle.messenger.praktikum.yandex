@@ -10,11 +10,11 @@ export default class Input extends Block<InputProps> {
   }
 }
 
- connect(Input, (state) => {
-  const dataInput = state.userInfo?.phone;
-  return {
-    attr: {
-      ...dataInput,
-    },
-  };
-});
+//  connect(Input, (state) => {
+//   const dataInput = state.userInfo?.phone;
+//   return {
+//     attr: {
+//       ...dataInput,
+//     },
+//   };
+// });

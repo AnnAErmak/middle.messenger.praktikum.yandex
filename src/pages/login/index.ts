@@ -20,13 +20,13 @@ const button = new Button('button', {
   },
 
 });
-const link = new Link('a', {
-  linkName: 'Регистрация',
-  attr: {
-    class: 'form-login__link',
-    href: '/sign-up',
-  },
-});
+// const link = new Link('a', {
+//   linkName: 'Регистрация',
+//   attr: {
+//     class: 'form-login__link',
+//     href: '/sign-up',
+//   },
+// });
 
 const formLogin = new FormLogin('form', {
   children: {
@@ -67,7 +67,7 @@ const formLogin = new FormLogin('form', {
     },
   }),
   button,
-  link,
+//  link,
 },
   formName: 'login',
   hrefForm: './signin.html',

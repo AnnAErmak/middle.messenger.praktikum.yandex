@@ -1,6 +1,3 @@
-// export function set(state, path, value) {
-// console.log(state, path, value)
-// }
 function merge(lhs, rhs) {
   for (const p in rhs) {
     if (!rhs.hasOwnProperty(p)) {

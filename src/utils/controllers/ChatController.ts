@@ -4,6 +4,8 @@ import Store from '../Store/Store';
 import { ChatListAPI } from '../api/chatAPI/ChatListAPI';
 import { createChatList } from '../api/createChatList';
 import { ChatUserAPI } from '../api/chatAPI/ChatUserAPI';
+import {TokenAPI} from "../api/UserAIP/TokenAPI";
+import {wssHost} from "../../constants";
 
 const http = new HTTPTransport();
 const store = new Store();
@@ -13,33 +15,34 @@ export default class ChatController {
   constructor() {
     this.chatListAPI = new ChatListAPI();
     this.chatUserAPI = new ChatUserAPI();
+    this.tokenAPI = new TokenAPI()
   }
 
   getChatMessages(idChat) {
-    http.post(`https://ya-praktikum.tech/api/v2/chats/token/${idChat}`, { data: {} })
-      .then((token) => token.response.token)
-      .then((t) => {
-        const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/72519/${idChat}/${t}`);
+    return this.tokenAPI.create(idChat)
+      .then((token) => {
+        const userId = state.chatPage.userId;
 
+         const socket = new WebSocket(`${wssHost}58320/${idChat}/${token}`);
         socket.addEventListener('open', () => {
-          store.set('chatPage.token', t);
-          store.set('chatPage.idChat', idChat);
-          socket.send(JSON.stringify({
+        socket.send(JSON.stringify({
             content: '0',
             type: 'get old',
           }));
         });
+
         socket.addEventListener('message', (event) => {
           const messages = JSON.parse(event.data).map((item) => new Button('button', {
             textButton: item.content,
             attr: {
               class: 'add-chat-btn',
               id: item.user_id,
-              type: '',
+              type: 'button',
             },
           }));
-          store.set('chatPage.children.chatMassages', messages);
+          store.set('chatPage.chatMassages', messages);
         });
+
       });
   }
 
@@ -48,7 +51,8 @@ export default class ChatController {
     if (!state.chatPage.token) return;
     const { idChat } = state.chatPage;
     const { token } = state.chatPage;
-    const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/72519/${idChat}/${token}`);
+    const userId = state.chatPage.userId;
+    const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${idChat}/${token}`);
     socket.addEventListener('open', () => {
       socket.send(JSON.stringify({
         content: message,
@@ -68,7 +72,7 @@ export default class ChatController {
             type: '',
           },
         }));
-        store.set('chatPage.children.chatMassages', messages);
+        store.set('chatPage.chatMassages', messages);
       });
     });
   }
@@ -77,7 +81,7 @@ export default class ChatController {
     return this.chatListAPI.request()
       .then((res) => {
         const chatList = createChatList(res);
-        store.set('chatPage.children.chatList', chatList);
+        store.set('chatPage.chatList', chatList);
       });
   }
 

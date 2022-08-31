@@ -61,15 +61,17 @@ const removeUserBtn = new Button('button', {
     },
   },
 });
-const linkSetings = new Link('a', {
-  linkName: 'Профиль',
+const linkSetings = new Button('button', {
+  textButton: 'Профиль',
   attr: {
     class: '',
-    href: '/settings',
+    type: 'button',
   },
-  click: (e) => {
-    e.preventDefault()
-    new Router().go('/settings')
+  events:{
+    click: (e) => {
+      //e.preventDefault()
+      new Router().go('/settings')
+    }
   },
 
 });

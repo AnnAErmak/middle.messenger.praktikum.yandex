@@ -1,12 +1,11 @@
 import Route from './Route';
+import newRoute from './newRoute';
 
 export default class Router {
   static _instance;
   constructor(rootQuery) {
-    console.log(Router._instance)
     if (Router._instance)
       return Router._instance;
-console.log(Router._instance)
     this.routes = [];
     this.history = window.history;
     this.currentRoute = null;
@@ -15,13 +14,14 @@ console.log(Router._instance)
   }
 
   use(pathname, block) {
-    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
+    const route = new newRoute(pathname, block);
     this.routes.push(route);
     return this;
   }
 
   start() {
     window.onpopstate = (e => {
+      e.preventDefault()
       this._onRoute(window.location.pathname)
     });
     this._onRoute(window.location.pathname);
