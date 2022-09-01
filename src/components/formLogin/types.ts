@@ -1,4 +1,4 @@
-import { Input } from '../input/input';
+import  Input  from '../input/input';
 import { Label } from '../label/label';
 import { Button } from '../button/button';
 

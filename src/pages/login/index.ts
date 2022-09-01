@@ -10,6 +10,7 @@ import {
 } from '../../utils/validator';
 import {AuthController} from '../../utils/controllers/userControllers/AuthController'
 import { Link } from '../../components/link/link';
+import Router from "../../utils/Router/Router";
 
 
 const button = new Button('button', {
@@ -20,13 +21,16 @@ const button = new Button('button', {
   },
 
 });
-// const link = new Link('a', {
-//   linkName: 'Регистрация',
-//   attr: {
-//     class: 'form-login__link',
-//     href: '/sign-up',
-//   },
-// });
+const buttonReg = new Button('button', {
+  textButton: 'Зарегистрироваться',
+  attr: {
+    class: 'button',
+    type: 'button',
+  },
+events:{
+    click: () => new Router().go('/sign-up')
+}
+});
 
 const formLogin = new FormLogin('form', {
   children: {
@@ -67,7 +71,7 @@ const formLogin = new FormLogin('form', {
     },
   }),
   button,
-//  link,
+
 },
   formName: 'login',
   hrefForm: './signin.html',
@@ -90,6 +94,7 @@ const formLogin = new FormLogin('form', {
 const loginPage = new LoginPage('div', {
   children: {
     formLogin,
+    buttonReg,
   },
   attr: {
     class: 'container',

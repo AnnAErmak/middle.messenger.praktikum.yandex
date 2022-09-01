@@ -98,5 +98,4 @@ const chatPage = new ChatPage('div', {
   },
 });
 
-Window.s = new Store().getState()
 export {chatPage}

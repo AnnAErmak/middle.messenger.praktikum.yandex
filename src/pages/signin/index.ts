@@ -9,10 +9,11 @@ import {
 } from '../../utils/validator';
 import { Label } from '../../components/label/label';
 import  Input  from '../../components/input/input';
-import UserSigninController from "../../utils/controllers/UserController";
+import {AuthController} from "../../utils/controllers/userControllers/AuthController";
 import {Link} from "../../components/link/link";
+import {FormSignin} from "../../components/formSignin/formSignin";
 
-
+const authController = new AuthController()
 const button = new Button('button', {
   textButton: 'Зарегистрироваться',
   attr: {
@@ -21,15 +22,15 @@ const button = new Button('button', {
   },
 
 });
-const link = new Link('a', {
-  linkName: 'Войти',
-  attr: {
-    class: 'form-signin__link',
-    href: '/',
-  },
-});
+// const link = new Link('a', {
+//   linkName: 'Войти',
+//   attr: {
+//     class: 'form-signin__link',
+//     href: '/',
+//   },
+// });
 
-const formRegistration = new Form('form', {
+const formRegistration = new FormSignin('form', {
   children: {
   labelEmail: new Label('label', {
     labelName: 'Почта',
@@ -139,26 +140,9 @@ const formRegistration = new Form('form', {
       class: 'label-input__input',
     },
   }),
-  labelPasswordAgain: new Label('label', {
-    labelName: 'Пароль (еще раз)',
-    attr: {
-      class: 'label-input',
-    },
-  }),
-  inputPasswordAgain: new Input('input', {
-    events: {
-      focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-    },
-    attr: {
-      type: 'password',
-      name: 'passwordAgain',
-      placeholder: 'пароль (еще раз)',
-      class: 'label-input__input',
-    },
-  }),
+
   button,
-  link,
+  //link,
 },
   formName: 'signin',
   hrefForm: './login.html',
@@ -171,7 +155,7 @@ const formRegistration = new Form('form', {
   events: {
     submit: (e) => {
       e.preventDefault();
-      //UserSigninController.signin('123')
+      authController.signin(e.target)
     },
   },
   titleForm: 'Регистрация',

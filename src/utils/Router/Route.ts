@@ -1,11 +1,10 @@
 import { renderTemplate } from '../renderTemplate';
 
 export default class Route {
-  constructor(pathname, view, props) {
+  constructor(pathname, view) {
     this._pathname = pathname;
     this._block = view;
     this._blockFlag = null;
-    this._props = props;
   }
 
   navigate(pathname) {

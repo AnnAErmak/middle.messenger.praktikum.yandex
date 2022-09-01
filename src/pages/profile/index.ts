@@ -12,9 +12,11 @@ import {
 import { UserController } from '../../utils/controllers/UserController';
 import Store from '../../utils/Store/Store';
 import { ChangeUserProfileController } from '../../utils/controllers/userControllers/ChangeUserProfileController';
+import { FormPassword } from '../../components/formPassword/formPassword';
+import Router from "../../utils/Router/Router";
 
-// const userController = new UserController();
- const userProfileController = new ChangeUserProfileController();
+const userController = new UserController();
+const userProfileController = new ChangeUserProfileController();
 // userController.getUserInfo();
 // userProfileController.getUserAvatar();
 //
@@ -36,25 +38,18 @@ const buttonPass = new Button('button', {
   },
   events: {
     click: () => {
-      const hidden = document.querySelectorAll('.hidden');
-      hidden.forEach((el) => el.classList.remove('hidden'));
+      const hidden = document.querySelector('.hidden');
+      hidden.classList.remove('hidden')
     },
   },
 });
 const changePasswordBtn = new Button('button', {
   textButton: 'Применить',
   attr: {
-    class: 'button-change-pass hidden',
-    type: 'button',
+    class: 'button-change-pass',
+    type: '',
   },
-  events: {
-    click: (e) => {
-      e.stopImmediatePropagation();
-      const oldPassword = document.querySelector('.password');
-      const newPassword = document.querySelector('.newPassword');
-      userProfileController.changePassword({ oldPassword, newPassword });
-    },
-  },
+
 });
 const logoutBtn = new Button('button', {
   textButton: 'LogOut',
@@ -64,8 +59,8 @@ const logoutBtn = new Button('button', {
   },
   events: {
     click: (e) => {
-      userController.userLogOut()
-
+      userController.userLogOut();
+      new Router().go('/')
     },
   },
 });
@@ -78,118 +73,176 @@ const formProfile = new Form('form', {
         class: 'label-input',
       },
     }),
-    inputEmail: new Input('input', {
-      events: {
-        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      },
-      attr: {
-        type: 'email',
-        name: 'email',
-        placeholder: 'почта',
-        class: 'label-input__input',
-        value: 'test@mail.ru', // state?.email ??
-      },
-    }),
+    // inputEmail: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'email',
+    //     name: 'email',
+    //     placeholder: 'почта',
+    //     class: 'label-input__input',
+    //     value: 'test@mail.ru', // state?.email ??
+    //   },
+    // }),
     labelLogin: new Label('label', {
       labelName: 'Логин',
       attr: {
         class: 'label-input',
       },
     }),
-    inputLogin: new Input('input', {
-      events: {
-        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      },
-      attr: {
-        type: 'text',
-        name: 'login',
-        placeholder: 'логин',
-        class: 'label-input__input',
-        value: 'city_hero',
-      },
-    }),
+    // inputLogin: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'text',
+    //     name: 'login',
+    //     placeholder: 'логин',
+    //     class: 'label-input__input',
+    //     value: 'city_hero',
+    //   },
+    // }),
     labelFirstName: new Label('label', {
       labelName: 'Имя',
       attr: {
         class: 'label-input',
       },
     }),
-    inputFirstName: new Input('input', {
-      events: {
-        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      },
-      attr: {
-        type: 'text',
-        name: 'first_name',
-        placeholder: 'имя',
-        class: 'label-input__input',
-        value: 'Иван',
-      },
-    }),
+    // inputFirstName: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'text',
+    //     name: 'first_name',
+    //     placeholder: 'имя',
+    //     class: 'label-input__input',
+    //     value: 'Иван',
+    //   },
+    // }),
     labelSecondName: new Label('label', {
       labelName: 'Фамилия',
       attr: {
         class: 'label-input',
       },
     }),
-    inputSecondName: new Input('input', {
-      events: {
-        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      },
-      attr: {
-        type: 'text',
-        name: 'second_name',
-        placeholder: 'фамилия',
-        class: 'label-input__input',
-        value: 'Иванов',
-      },
-    }),
+    // inputSecondName: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'text',
+    //     name: 'second_name',
+    //     placeholder: 'фамилия',
+    //     class: 'label-input__input',
+    //     value: 'Иванов',
+    //   },
+    // }),
     labelChatName: new Label('label', {
       labelName: 'Имя в чате',
       attr: {
         class: 'label-input',
       },
     }),
-    inputChatName: new Input('input', {
-      events: {
-        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      },
-      attr: {
-        type: 'text',
-        name: 'chat_name',
-        placeholder: 'имя в чате',
-        class: 'label-input__input',
-        value: 'City hero',
-      },
-    }),
+    // inputChatName: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'text',
+    //     name: 'chat_name',
+    //     placeholder: 'имя в чате',
+    //     class: 'label-input__input',
+    //     value: 'City hero',
+    //   },
+    // }),
     labelPhone: new Label('label', {
       labelName: 'Телефон',
       attr: {
         class: 'label-input',
       },
     }),
-    inputPhone: new Input('input', {
-      events: {
-        focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-        blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
-      },
-      attr: {
-        type: 'phone',
-        name: 'phone',
-        placeholder: 'телефон',
-        class: 'label-input__input',
-        value: '+0682713737',
-      },
-    }),
+    // inputPhone: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'phone',
+    //     name: 'phone',
+    //     placeholder: 'телефон',
+    //     class: 'label-input__input',
+    //     value: '+0682713737',
+    //   },
+    // }),
+    // labelPassword: new Label('label', {
+    //   labelName: 'Старый пароль',
+    //   attr: {
+    //     class: 'label-input hidden',
+    //   },
+    // }),
+    // inputPassword: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'password',
+    //     name: 'password',
+    //     placeholder: 'пароль',
+    //     class: 'label-input__input password hidden',
+    //   },
+    // }),
+    // labelNewPassword: new Label('label', {
+    //   labelName: 'Новый пароль',
+    //   attr: {
+    //     class: 'label-input hidden',
+    //   },
+    // }),
+    // inputNewPassword: new Input('input', {
+    //   events: {
+    //     focus: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //     blur: (e) => ((!isValidField(e.target.name, e.target.value)) ? addError(e.target) : removeError(e.target)),
+    //   },
+    //   attr: {
+    //     type: 'password',
+    //     name: 'newPassword',
+    //     placeholder: 'пароль',
+    //     class: 'label-input__input newPassword hidden',
+    //   },
+    // }),
+    button: buttonData,
+    buttonFixPass: buttonPass,
+    //changePasswordBtn,
+
+  },
+  formName: 'profile',
+  linkName: 'Выйти',
+  attr: {
+    class: 'form-profile',
+    method: '',
+    action: '',
+  },
+  events: {
+    submit: (e) => {
+      e.preventDefault();
+      userProfileController.putUserProfile(e.target);
+    },
+  },
+
+});
+const formPassword = new FormPassword('form', {
+  children: {
     labelPassword: new Label('label', {
       labelName: 'Старый пароль',
       attr: {
-        class: 'label-input hidden',
+        class: 'label-input',
       },
     }),
     inputPassword: new Input('input', {
@@ -201,13 +254,13 @@ const formProfile = new Form('form', {
         type: 'password',
         name: 'password',
         placeholder: 'пароль',
-        class: 'label-input__input password hidden',
+        class: 'label-input__input password ',
       },
     }),
     labelNewPassword: new Label('label', {
       labelName: 'Новый пароль',
       attr: {
-        class: 'label-input hidden',
+        class: 'label-input ',
       },
     }),
     inputNewPassword: new Input('input', {
@@ -219,34 +272,34 @@ const formProfile = new Form('form', {
         type: 'password',
         name: 'newPassword',
         placeholder: 'пароль',
-        class: 'label-input__input newPassword hidden',
+        class: 'label-input__input newPassword ',
       },
     }),
-    button: buttonData,
-    buttonFixPass: buttonPass,
     changePasswordBtn,
-
   },
-  formName: 'profile',
-  hrefForm: './chat.html',
-  linkName: 'Выйти',
   attr: {
-    class: 'form-profile',
-    method: 'get',
-    action: '#',
+    class: 'form-profile-password hidden',
+    method: '',
+    action: '',
   },
   events: {
     submit: (e) => {
-      e.preventDefault();
-      userProfileController.putUserProfile(e.target);
+      if (e.target.className === 'form-profile-password') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const oldPassword = document.querySelector('.password');
+        const newPassword = document.querySelector('.newPassword');
+        userProfileController.changePassword({ oldPassword, newPassword })
+        const hidden = document.querySelector('.form-profile-password');
+        hidden.classList.add('hidden')
+      }
     },
   },
-
 });
-
 const profilePage = new Profile('div', {
   children: {
     formProfile,
+    formPassword,
     logoutBtn,
   },
   pathAva: '',
@@ -255,6 +308,7 @@ const profilePage = new Profile('div', {
   },
   events: {
     submit: (e) => {
+      if (!(e.target.id === 'myUserForm')) return;
       e.preventDefault();
       const form = new FormData(e.target);
       userProfileController.changeAvatar(form);

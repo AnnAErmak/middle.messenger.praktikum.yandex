@@ -12,17 +12,7 @@ export function createChatList(data) {
     },
     events: {
       click: (e) => {
-        chatController.getChatMessages(item.id)
-        //.then((res) =>{
-          //console.log(res)
-          // const cardChat = document.querySelectorAll('.wrapper-card-chat')
-          // cardChat.forEach(card => {
-          //   card.classList.remove('selected')
-          // })
-          // const id = e.target.dataset.id
-          // const selectCard = document.getElementById(id)
-          // selectCard.classList.add('selected')
-       // })
+        chatController.getChatMessages(item.id);
       },
     },
   }));

@@ -14,7 +14,7 @@ export default class Router {
   }
 
   use(pathname, block) {
-    const route = new newRoute(pathname, block);
+    const route = new Route(pathname, block);
     this.routes.push(route);
     return this;
   }
